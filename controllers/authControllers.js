@@ -7,6 +7,7 @@ const { JWT_SECRET } = require('../config/dotenvConfig').config;
 //register
 const register = (req, res) => {
     const { email, username, password } = req.body;
+    console.log(email, username, password);
     const errors = [];
 
     if (!validator.isEmail(email)){
