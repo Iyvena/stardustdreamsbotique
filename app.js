@@ -33,7 +33,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(limiter);
 app.use(cookieParser());
 app.use(cors({
-    origin: ['http://127.0.0.1:5501', 'http://192.168.10.20'],
+    origin: 'https://nameuserer.github.io/stardustdreamsbotique/',
     credentials: true
 }));
 
