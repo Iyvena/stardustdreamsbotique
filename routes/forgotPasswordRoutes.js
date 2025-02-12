@@ -1,10 +1,7 @@
-const express = require('express');
-const { forgotPassword } = require('../controllers/forgotPasswordController');
-const { resetPassword } = require('../controllers/resetPasswordController');
-
+/*const express = require("express");
 const router = express.Router();
+const { forgotPassword } = require("../controllers/forgotPasswordController");  // A controller importálása
 
-router.post('/forgot-password', forgotPassword);
-router.post('/reset-password', resetPassword);
+router.post("/forgot-password", forgotPassword);  // A POST route
 
-module.exports = router;
+module.exports = router;*/

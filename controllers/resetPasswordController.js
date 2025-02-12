@@ -1,38 +1,25 @@
-const bcrypt = require('bcrypt');
-const database = require('../models/database');
+/*const database = require("../models/database");  // A MySQL adatbázis kapcsolat
 
-const resetPassword = (req, res) => {
-    const { resetToken, newPassword } = req.body;
-  
-    if (!resetToken || !newPassword) {
-      return res.status(400).json({ error: "A token és az új jelszó megadása kötelező." });
-    }
-  
-    const checkTokenQuery = 'SELECT user_id FROM users WHERE reset_token = ? AND reset_token_expires > NOW()';
-  
-    database.query(checkTokenQuery, [resetToken], (err, result) => {
-      if (err) {
-        console.error("Adatbázis hiba:", err);
-        return res.status(500).json({ error: "Adatbázis hiba történt.", details: err.message });
-      }
-  
-      if (result.length === 0) {
-        return res.status(400).json({ error: "Érvénytelen vagy lejárt token." });
-      }
-  
-      const userId = result[0].user_id;
-      const hashedPassword = bcrypt.hashSync(newPassword, 10);
-  
-      const updatePasswordQuery = 'UPDATE users SET password = ? WHERE user_id = ?';
-      database.query(updatePasswordQuery, [hashedPassword, userId], (err) => {
-        if (err) {
-          console.error("Jelszó frissítési hiba:", err);
-          return res.status(500).json({ error: "Hiba történt a jelszó frissítésekor." });
+// A resetPassword logika
+const resetPassword = async (req, res) => {
+    const { token, newPassword } = req.body;
+
+    try {
+        // Ellenőrizzük, hogy érvényes a reset token
+        const [user] = await database.promise().query('SELECT * FROM users WHERE resetToken = ?', [token]);
+        
+        if (!user || user.length === 0) {
+            return res.status(400).json({ message: "Invalid or expired token" });
         }
-  
-        return res.status(200).json({ message: "Jelszó sikeresen frissítve." });
-      });
-    });
-  };
-  
-module.exports = { resetPassword };
+
+        // A jelszó frissítése az adatbázisban
+        await database.promise().query('UPDATE users SET password = ?, resetToken = NULL WHERE resetToken = ?', [newPassword, token]);
+
+        return res.json({ message: "Password reset successful!" });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Server error" });
+    }
+};
+
+module.exports = { resetPassword };*/

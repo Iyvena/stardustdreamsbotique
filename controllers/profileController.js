@@ -1,5 +1,5 @@
 const database = require('../models/database');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 //profile name change
 const editProfileName = (req, res) => {

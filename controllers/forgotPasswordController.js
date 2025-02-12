@@ -1,47 +1,58 @@
-const crypto = require('crypto');
-const database = require('../models/database');
+/*const nodemailer = require("nodemailer");
+const database = require("../models/database");  // Adatbázis kapcsolat
 
-const forgotPassword = (req, res) => {
+// A transporter beállítása
+const transporter = nodemailer.createTransport({
+    service: "gmail",  
+    auth: {
+        user: process.env.EMAIL_USER,  
+        pass: process.env.EMAIL_PASS,  
+    },
+});
+
+const forgotPassword = async (req, res) => {
     const { email } = req.body;
 
-    if (!email) {
-        return res.status(400).json({ error: "Az email megadása kötelező." });
+    try {
+        console.log("Received email:", email);  // Ellenőrizni, hogy tényleg jön-e az email
+
+        // Ellenőrizzük, hogy létezik-e a felhasználó email címe
+        const [user] = await database.promise().query('SELECT * FROM users WHERE email = ?', [email]);
+        
+        if (!user || user.length === 0) {
+            console.log("User not found");
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Reset token generálása
+        const resetToken = Math.random().toString(36).substring(2, 15);
+        console.log("Generated reset token:", resetToken);
+
+        // Email küldése
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: "Password Reset",
+            text: `Please use the following token to reset your password: ${resetToken}`,
+        };
+
+        // Küldés próbálkozás
+        try {
+            await transporter.sendMail(mailOptions);  
+            console.log("Email sent successfully!");  // Ez a log fog jelezni, hogy az email sikeresen el lett küldve
+        } catch (error) {
+            console.error("Email send error:", error);  // Hiba naplózása, ha valami nem sikerült
+            return res.status(500).json({ message: "Error sending email", error });
+        }
+
+        // A reset token mentése az adatbázisba
+        await database.promise().query('UPDATE users SET resetToken = ? WHERE email = ?', [resetToken, email]);
+
+        return res.json({ message: "Password reset email sent!" });
+    } catch (error) {
+        console.error("Server error:", error);  // Ezt a log-ot akkor látod, ha más hiba van
+        return res.status(500).json({ message: "Server error", error });
     }
-
-    const findUserQuery = 'SELECT user_id FROM users WHERE email = ?';
-
-    database.query(findUserQuery, [email], (err, result) => {
-        if (err) {
-            console.error("Adatbázis hiba:", err);
-            return res.status(500).json({ error: "Adatbázis hiba történt.", details: err.message });
-        }
-
-        if (result.length === 0) {
-            return res.status(404).json({ error: "A megadott email cím nem található." });
-        }
-
-        const userId = result[0].user_id;
-
-        const resetToken = crypto.randomBytes(32).toString('hex');
-        const tokenExpires = Date.now() + 3600000; // 1 óra lejárati idő
-
-        const saveTokenQuery = `
-            UPDATE users 
-            SET reset_token = ?, reset_token_expires = ? 
-            WHERE user_id = ?
-        `;
-        database.query(saveTokenQuery, [resetToken, tokenExpires, userId], (err) => {
-            if (err) {
-                console.error("Token mentési hiba:", err);
-                return res.status(500).json({ error: "Hiba történt a token mentésekor." });
-            }
-
-            return res.status(200).json({
-                message: "Token generálva. Használja a következő lépéshez.",
-                resetToken: resetToken
-            });
-        });
-    });
 };
 
-module.exports = { forgotPassword };
+module.exports = { forgotPassword };*/

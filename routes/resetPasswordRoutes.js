@@ -1,8 +1,7 @@
-const express = require('express');
+/*const express = require("express");
 const router = express.Router();
-const { resetPassword } = require('../controllers/resetPasswordController');
+const { resetPassword } = require("../controllers/resetPasswordController");  // A controller importálása
 
-// Reset password route
-router.post('/reset-password', resetPassword);
+router.post("/reset-password", resetPassword);  // A POST route
 
-module.exports = router;
+module.exports = router; */

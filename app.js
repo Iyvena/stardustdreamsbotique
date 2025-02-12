@@ -17,8 +17,8 @@ const orderRoutes = require('./routes/orderRoutes');
 const orderItemsRoutes = require('./routes/orderItemsRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const cartItemsRoutes = require('./routes/cartItemsRoutes');
-const forgotPasswordRoutes = require('./routes/forgotPasswordRoutes');
-const resetPasswordRoutes = require('./routes/resetPasswordRoutes');
+//const forgotPasswordRoutes = require("./routes/forgotPasswordRoutes");
+//const resetPasswordRoutes = require("./routes/resetPasswordRoutes");
 const productDescriptionRoutes = require('./routes/productDescriptionRoutes');
 const editProfileRoutes = require("./routes/profileRoutes");
 const searchRoutes = require('./routes/searchRoutes');
@@ -49,8 +49,8 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/order_items', orderItemsRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/cart-items', cartItemsRoutes);
-app.use('/api', forgotPasswordRoutes);
-app.use('/api', resetPasswordRoutes);
+//app.use("/api/auth", forgotPasswordRoutes);  // Forgot password route
+//app.use("/api/auth", resetPasswordRoutes);   // Reset password route
 app.use('/', productDescriptionRoutes);
 app.use('/api', searchRoutes);
 
