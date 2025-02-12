@@ -3,6 +3,7 @@ const database = require('../models/database');
 //rendeléshez a termékek hozzáadása
 const createOrderItem = (req, res) => {
     const { order_id, product_id, quantity, price } = req.body;
+    console.log(order_id, product_id, quantity, price);
 
     
     if (!order_id || !product_id || !quantity || !price) {

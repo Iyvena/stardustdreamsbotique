@@ -2,6 +2,7 @@ const database = require('../models/database');
 //hozzáadni a termékeket a kosárhoz
 const addToCart = (req, res) => {
     const { cart_id, product_id, quantity } = req.body;
+    console.log(cart_id, product_id, quantity);
 
     if (!cart_id || !product_id || !quantity) {
         return res.status(400).json({ error: 'Hiányzó adatok a kosárhoz adásnál' });

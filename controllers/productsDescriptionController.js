@@ -2,6 +2,7 @@ const database = require('../models/database');
 //leírás
 const updateProductDescription = (req, res) => {
     const { product_id, description } = req.body;
+    console.log(product_id, description);
 
     if (!product_id || !description) {
         return res.status(400).json({ error: 'Termék ID és leírás megadása szükséges' });

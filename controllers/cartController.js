@@ -2,6 +2,7 @@ const database = require('../models/database');
 //kosár kreálás
 const createCart = (req, res) => {
     const { user_id } = req.body;
+    console.log(user_id);
 
     if (!user_id) {
         return res.status(400).json({ error: 'A kosárhoz szükséges user_id' });
@@ -20,6 +21,7 @@ const createCart = (req, res) => {
 //eltávolítás a kosárból
 const removeItemFromCart = (req, res) => {
     const { cart_item_id } = req.params;
+    console.log(cart_item_id);
 
     if (!cart_item_id) {
         return res.status(400).json({ error: "Hiányzó cart_item_id" });

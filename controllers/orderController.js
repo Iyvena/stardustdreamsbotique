@@ -3,6 +3,7 @@ const database = require('../models/database');
 //rendelés létre hozása
 const createOrder = (req, res) => {
     const { user_id, total } = req.body;
+    console.log(user_id, total);
     const order_date = new Date();
     
     if (!user_id || !total) {

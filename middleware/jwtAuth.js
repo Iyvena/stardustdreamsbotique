@@ -24,6 +24,7 @@ const { JWT_SECRET } = require('../config/dotenvConfig').config;
 };/*/
 function authenticateToken(req, res, next) {
     const token = req.cookies.auth_token;
+    console.log(token);
 
     if (!token) {
         return res.status(403).json({ error: 'Nincs bejelentkezett felhasználó' });

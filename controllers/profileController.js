@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const editProfileName = (req, res) => {
     const { username } = req.body;  
     const user_id = req.user.id;  
+    console.log(username, user_id);
 
     if (!username || username.trim() === "") {
         return res.status(400).json({ error: "A név nem lehet üres." });
@@ -34,6 +35,7 @@ const editProfileName = (req, res) => {
 const editProfilePassword = (req, res) => {
     const password = req.body.password;
     const user_id = req.user.id;
+    console.log(password, user_id);
 
     const salt = 10;
 
@@ -63,6 +65,7 @@ const editProfilePassword = (req, res) => {
 const editProfileAdress = (req, res) => {
     const { address } = req.body; 
     const user_id = req.user.id;
+    console.log(address, user_id);
 
     
     if (!address || address.trim() === '') {
@@ -91,6 +94,8 @@ const editProfilePic = (req, res) => {
     const user_id = req.user.id;
     const profile_pic =req.file ? req.file.filename : null;
 
+    console.log(user_id, profile_pic);
+
     const sql = 'UPDATE users SET profile_pic = COALESCE(NULLIF(?, ""), profile_pic) WHERE user_id = ?';
 
     database.query(sql, [profile_pic, user_id], (err, result) => {
@@ -105,6 +110,7 @@ const editProfilePic = (req, res) => {
 //profilepic show
 const getProfilePic = (req, res) => {
     const user_id = req.user.id;
+    console.log(user_id);
 
     const sql = 'SELECT profile_pic FROM users WHERE user_id = ?';
     database.query(sql, [user_id], (err, result) => {

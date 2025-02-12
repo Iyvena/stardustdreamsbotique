@@ -3,7 +3,9 @@ const database = require('../models/database');
 // kedvenekhez adás
 const likeProduct = (req, res) => {
     const { product_id } = req.body;
+    console.log(product_id);
     const user_id = req.user.id;
+    console.log(user_id);
 
     
     if (!product_id) {
@@ -55,7 +57,9 @@ const likeProduct = (req, res) => {
 // Kedvenc eltávolítása
 const unlikeProduct = (req, res) => {
     const { product_id } = req.body;
+    console.log(product_id);
     const user_id = req.user.id;
+    console.log(user_id);
 
     if (!product_id) {
         return res.status(400).json({ error: 'A termék ID-ja szükséges' });
@@ -80,7 +84,9 @@ const unlikeProduct = (req, res) => {
 // Kedvenc ellenőrzése
 const checkLike = (req, res) => {
     const { product_id } = req.params;
+    console.log(product_id);
     const user_id = req.user.id;
+    console.log(user_id);
 
     const sql = 'SELECT * FROM likes WHERE user_id = ? AND product_id = ?';
     database.query(sql, [user_id, product_id], (err, result) => {

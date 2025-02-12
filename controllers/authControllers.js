@@ -45,6 +45,7 @@ const register = (req, res) => {
 //login
 const login = (req, res) => {
     const { email, password } = req.body;
+    console.log(email, password);
     const errors = [];
 
     if (!validator.isEmail(email)) {
@@ -114,6 +115,7 @@ const logout = (req, res) => {
 //admin login
 const loginUser = (req, res) => {
     const { username, password } = req.body;
+    console.log(username, password);
 
     const sql = 'SELECT * FROM users WHERE username = ?';
     database.query(sql, [username], (err, result) => {
