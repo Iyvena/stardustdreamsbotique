@@ -33,7 +33,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(limiter);
 app.use(cookieParser());
 app.use(cors({
-    origin: 'https://nameuserer.github.io',
+    origin: 'https://stardustdreams.netlify.app',
     credentials: true
 }));
 
