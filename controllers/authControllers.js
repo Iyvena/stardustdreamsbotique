@@ -89,8 +89,8 @@ const login = (req, res) => {
                 
                 res.cookie('auth_token', token, {
                     httpOnly: true,
-                    secure: process.env.NODE_ENV === 'production',  // HTTPS csak ha production
-                    sameSite: 'None',  // Ha külön domainen fut a frontend
+                    secure: true,  // HTTPS csak ha production
+                    sameSite: 'lax',  // Ha külön domainen fut a frontend
                     maxAge: 3600000 * 24 * 31 * 12, // 1 év
                 });
 
@@ -138,7 +138,12 @@ const loginUser = (req, res) => {
                 { expiresIn: '1h' }  
             );
 
-            res.cookie('auth_token', token); 
+            res.cookie('auth_token', token, {
+                httpOnly: true,
+                secure: true,  // HTTPS csak ha production
+                sameSite: 'lax',  // Ha külön domainen fut a frontend
+                maxAge: 3600000 * 24 * 31 * 12, // 1 év
+            });
             res.status(200).json({ message: 'Sikeres bejelentkezés', token });
         });
     });
