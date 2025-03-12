@@ -3,7 +3,7 @@ const database = require('../models/database');
 //összes termék le kérdezése
 const getALLproduct = (req, res) => {
     const user_id = req.user_id;
-    console.log(user_id);
+    console.log(user_id, "getallproductnál userid gond");
     //const sql = 'SELECT products.product_id, products.product_name, products.user_id, users.username, users.profile_pic, COUNT(likes.product_id) AS`like`, CASE WHEN EXISTS(SELECT 1 FROM likes WHERE likes.product_id = products.product_id AND likes.user_id = ?) THEN 1 ELSE 0 END AS alreadyLiked FROM products JOIN users ON products.user_id = users.user_id LEFT JOIN likes ON products.product_id = likes.product_id GROUP BY products.product_id'
     const sql = 'SELECT * FROM products';
 
@@ -29,7 +29,7 @@ const uploadProduct = (req, res) => {
     }
 
     const { product_name, price, type_id, chategory_name } = req.body;
-    console.log(product_name, price,type_id,chategory_name);
+    console.log(product_name, price,type_id,chategory_name, "uploadproductnál productname price typeid chategoryname baj");
     const product = req.file.filename;
     console(product);
 
@@ -58,7 +58,7 @@ const uploadProduct = (req, res) => {
         }
 
         const chategory_id = result[0].chategory_id;
-        console.log(chategory_id);
+        console.log(chategory_id, "valamien chategoryid baj");
 
         
         const sql = 'INSERT INTO products (user_id, product_name, price, type_id, chategory_id, product) VALUES (?, ?, ?, ?, ?, ?)';

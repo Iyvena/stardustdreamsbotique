@@ -7,7 +7,7 @@ const { JWT_SECRET } = require('../config/dotenvConfig').config;
 //register
 const register = (req, res) => {
     const { email, username, password } = req.body;
-    console.log(email, username, password);
+    console.log("Email:", email, "Username:", username, "Password:", password, " registernél email,usernames vagy passwordos gond");
     const errors = [];
 
     if (!validator.isEmail(email)){
@@ -45,7 +45,7 @@ const register = (req, res) => {
 //login
 const login = (req, res) => {
     const { email, password } = req.body;
-    console.log(email, password);
+    console.log(email, password, "loginnél emailes or passwordos gond");
     const errors = [];
 
     if (!validator.isEmail(email)) {
@@ -115,7 +115,7 @@ const logout = (req, res) => {
 //admin login
 const loginUser = (req, res) => {
     const { username, password } = req.body;
-    console.log(username, password);
+    console.log(username, password, "loginUsernél username vagy passwordos gond");
 
     const sql = 'SELECT * FROM users WHERE username = ?';
     database.query(sql, [username], (err, result) => {
