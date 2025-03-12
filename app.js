@@ -38,7 +38,7 @@ app.use(cors({
 }));
 
 //fájlok
-app.use('/uploads', authenticateToken,express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 //útvonalak használata
 app.use('/api/auth', authRoutes);
