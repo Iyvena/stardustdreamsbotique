@@ -6,7 +6,7 @@ const { isAdmin } = require('../controllers/authControllers');
 
 const router = express.Router();
 //termék feltöltése és ellenörzése hogy admin e 
-router.get('/getALLproduct', authenticateToken, getALLproduct);
+router.get('/getALLproduct', getALLproduct);
 router.post('/uploadProduct', authenticateToken, isAdmin, upload.single('product'), uploadProduct);
 
 
