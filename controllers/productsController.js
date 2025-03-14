@@ -88,7 +88,7 @@ const filterProducts = (req, res) => {
         values.push(type_id);
     }
 
-    db.query(sql, values, (err, results) => {
+    database.query(sql, values, (err, results) => {
         if (err) {
             console.error("Query error: ", err);
             return res.status(500).json({ error: "Database query failed" });
