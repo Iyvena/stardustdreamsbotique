@@ -157,5 +157,12 @@ const isAdmin = (req, res, next) => {
     next();  
 };
 
+const isLoggedIn = (req, res) => {
+    if (req.cookies.auth_token) {
+        res.json({ loggedIn: true });
+    } else {
+        res.json({ loggedIn: false });
+    }
+}
 
-module.exports = { register, login, logout, isAdmin, loginUser };
+module.exports = { register, login, logout, isAdmin, loginUser, isLoggedIn };
