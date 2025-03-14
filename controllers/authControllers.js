@@ -72,6 +72,7 @@ const login = (req, res) => {
         }
 
         const user = result[0];
+        console.log(user,"valami");
         bcrypt.compare(password, user.password, (err, isMatch) => {
             if (isMatch) {
                 const token = jwt.sign(
