@@ -53,6 +53,7 @@ app.use('/api/cart-items', cartItemsRoutes);
 //app.use("/api/auth", resetPasswordRoutes);   // Reset password route
 app.use('/', productDescriptionRoutes);
 app.use('/api', searchRoutes);
+app.use("/api/products", productsRoutes); // Minden termékhez kapcsolódó API itt lesz
 
 
 

@@ -72,5 +72,30 @@ const uploadProduct = (req, res) => {
     });
 };
 
+const filterProducts = (req, res) => {
+    const { category_id, type_id } = req.query;
 
-module.exports = { getALLproduct, uploadProduct };
+    let sql = "SELECT * FROM products WHERE 1=1";
+    let values = [];
+
+    if (category_id) {
+        sql += " AND category_id = ?";
+        values.push(category_id);
+    }
+
+    if (type_id) {
+        sql += " AND type_id = ?";
+        values.push(type_id);
+    }
+
+    db.query(sql, values, (err, results) => {
+        if (err) {
+            console.error("Query error: ", err);
+            return res.status(500).json({ error: "Database query failed" });
+        }
+        res.json(results);
+    });
+};
+
+
+module.exports = { getALLproduct, uploadProduct, filterProducts };
