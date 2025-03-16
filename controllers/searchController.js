@@ -1,3 +1,6 @@
+const database = require('../models/database');
+
+//termék keresése
 const searchProducts = (req, res) => {
     let search = req.params.search || ''; // Ha nincs paraméter, akkor üres string
     search = search.trim();
