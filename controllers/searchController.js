@@ -1,11 +1,8 @@
-const database = require('../models/database');
-
-//termék keresése
 const searchProducts = (req, res) => {
-    const { search } = req.params;
+    let search = req.params.search || ''; // Ha nincs paraméter, akkor üres string
+    search = search.trim();
 
-    // Ha search nincs megadva vagy üres, akkor az összes terméket lekérjük
-    if (!search || search.trim() === "") {
+    if (search === '') {
         const sql = 'SELECT * FROM products';
 
         database.query(sql, (err, result) => {
@@ -20,7 +17,6 @@ const searchProducts = (req, res) => {
 
     // Ha van keresési kifejezés, akkor LIKE feltétellel keresünk
     const keres = `%${search}%`;
-    console.log(search, keres, "searchproductsnál search or keres baj");
     const sql = 'SELECT * FROM products WHERE product_name LIKE ? OR description LIKE ? OR price LIKE ?';
 
     database.query(sql, [keres, keres, keres], (err, result) => {
