@@ -4,7 +4,7 @@ const { likeProduct, unlikeProduct, checkLike } = require('../controllers/likeCo
 
 const router = express.Router();
 //kedvencekhez adás
-router.post('/like', authenticateToken, likeProduct);
+router.post('/:product_id', authenticateToken, likeProduct);
 //kedvencek checkolása
 router.get('/likes/check/:product_id', authenticateToken, checkLike);
 //kedvenc eltávolítása
