@@ -6,7 +6,7 @@ const router = express.Router();
 //kedvencekhez adás
 router.post('/:product_id', authenticateToken, likeProduct);
 //kedvencek checkolása
-router.get('/likes/check/:product_id', authenticateToken, checkLike);
+router.get('/check', authenticateToken, checkLike);
 //kedvenc eltávolítása
 router.delete('/unlike', authenticateToken, unlikeProduct);
 

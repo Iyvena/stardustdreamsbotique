@@ -83,19 +83,17 @@ const unlikeProduct = (req, res) => {
 
 // Kedvenc ellenőrzése
 const checkLike = (req, res) => {
-    const { product_id } = req.params;
-    console.log(product_id, "checklikenál productid");
     const user_id = req.user.id;
     console.log(user_id, "checklikenál userid");
 
-    const sql = 'SELECT * FROM likes WHERE user_id = ? AND product_id = ?';
+    const sql = 'SELECT * FROM likes WHERE user_id = ?';
     database.query(sql, [user_id, product_id], (err, result) => {
         if (err) {
             console.error('SQL Hiba a kedvenc státusz lekérdezésekor:', err);
             return res.status(500).json({ error: 'Hiba az SQL-ben', details: err });
         }
 
-        res.status(200).json({ isLiked: result.length > 0 });
+        res.status(200).json(result);
     });
 };
 
