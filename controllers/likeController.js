@@ -2,7 +2,7 @@ const database = require('../models/database');
 
 // kedvenekhez adás
 const likeProduct = (req, res) => {
-    const { product_id } = req.body;
+    const { product_id } = req.params;
     console.log(product_id, "likeproductnál productid-s gond");
     const user_id = req.user.id;
     console.log(user_id, "itt pedig a userid ugyanugy a likeproductnál");
