@@ -86,7 +86,7 @@ const checkLike = (req, res) => {
     const user_id = req.user.id;
     console.log(user_id, "checklikenál userid");
 
-    const sql = 'SELECT * FROM likes WHERE user_id = ?';
+    const sql = 'SELECT * FROM products JOIN likes ON likes.product_id = products.product_id WHERE likes.user_id = ?;';
     database.query(sql, [user_id], (err, result) => {
         if (err) {
             console.error('SQL Hiba a kedvenc státusz lekérdezésekor:', err);
