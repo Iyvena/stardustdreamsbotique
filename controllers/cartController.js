@@ -15,14 +15,9 @@ const createCart = (req, res) => {
             return res.status(500).json({ error: 'Hiba az SQL-ben', details: err });
         }
 
-        res.status(201).json({ 
-            success: true,
-            message: 'Kosár sikeresen létrehozva', 
-            cart_id: result.insertId 
-        });
+        res.status(201).json({ message: 'Kosár sikeresen létrehozva', cart_id: result.insertId });
     });
 };
-
 //eltávolítás a kosárból
 const removeItemFromCart = (req, res) => {
     const { cart_item_id } = req.params;
