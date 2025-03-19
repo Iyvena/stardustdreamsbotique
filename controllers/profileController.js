@@ -125,5 +125,24 @@ const getProfilePic = (req, res) => {
     });
 };
 
+const getUsername = (req, res) => {
+    const user_id = req.user.id; // Feltételezve, hogy az azonosított user ID elérhető a req.user-ben
+    console.log(user_id, "getUsername userid-s gond");
 
-module.exports = { editProfileName, editProfilePassword, editProfileAdress, editProfilePic, getProfilePic };
+    const sql = 'SELECT username FROM users WHERE user_id = ?';
+    database.query(sql, [user_id], (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: 'Hiba az SQL lekérdezésben' });
+        }
+        if (result.length === 0) { // Itt volt egy elírás nálad: "lenght" -> "length"
+            return res.status(404).json({ error: 'A felhasználó nem található vagy nem létezik' });
+        }
+
+        return res.status(200).json(result[0]); // Csak az első találatot küldjük vissza
+    });
+};
+
+module.exports = { getUsername };
+
+
+module.exports = { editProfileName, editProfilePassword, editProfileAdress, editProfilePic, getProfilePic, getUsername };
