@@ -1,7 +1,7 @@
 const database = require('../models/database');
 //kosár kreálás
 const createCart = (req, res) => {
-    const { user_id } = req.params;
+    const { user_id } = req.body;
     console.log(user_id, "cartnál a userid");
 
     if (!user_id) {
