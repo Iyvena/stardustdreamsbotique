@@ -142,7 +142,22 @@ const getUsername = (req, res) => {
     });
 };
 
-module.exports = { getUsername };
+const getAddress = (req, res) => {
+    const user_id = req.user.id; // Feltételezve, hogy az azonosított user ID elérhető a req.user-ben
+    console.log(user_id, "getAddress userid-s gond");
+
+    const sql = 'SELECT address FROM users WHERE user_id = ?';
+    database.query(sql, [user_id], (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: 'Hiba az SQL lekérdezésben' });
+        }
+        if (result.length === 0) { 
+            return res.status(404).json({ error: 'A felhasználó nem található vagy nem létezik' });
+        }
+
+        return res.status(200).json(result[0]); // Csak az első találatot küldjük vissza
+    });
+};
 
 
-module.exports = { editProfileName, editProfilePassword, editProfileAdress, editProfilePic, getProfilePic, getUsername };
+module.exports = { editProfileName, editProfilePassword, editProfileAdress, editProfilePic, getProfilePic, getUsername, getAddress };
