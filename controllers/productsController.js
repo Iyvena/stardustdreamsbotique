@@ -31,7 +31,7 @@ const uploadProduct = (req, res) => {
     const { product_name, price, type_id, chategory_name } = req.body;
     console.log(product_name, price,type_id,chategory_name, "uploadproductnál productname price typeid chategoryname baj");
     const product = req.file.filename;
-    console(product);
+    
 
     
 
