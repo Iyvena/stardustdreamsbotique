@@ -8,14 +8,34 @@ const createCart = (req, res) => {
         return res.status(400).json({ error: 'A kosárhoz szükséges user_id' });
     }
 
-    const insertCartSql = 'INSERT INTO cart (user_id) VALUES (?)';
-    database.query(insertCartSql, [user_id], (err, result) => {
+    const checkCartSql = 'SELECT * FROM cart WHERE user_id = ?';
+    database.query(checkCartSql, [user_id], (err, result) => {
         if (err) {
-            console.error('Hiba a kosár létrehozásakor:', err);
+            console.error('Hiba a kosár ellenőrzésekor:', err);
             return res.status(500).json({ error: 'Hiba az SQL-ben', details: err });
         }
 
-        res.status(201).json({ message: 'Kosár sikeresen létrehozva', cart_id: result.insertId });
+        if (result.length > 0) {
+            // Ha létezik kosár, akkor nem csinálunk semmit, válaszolunk, hogy már létezik
+            return res.status(200).json({
+                message: 'Kosár már létezik',
+                cart_id: result[0].cart_id
+            });
+        } else {
+            // Ha nem létezik, akkor létrehozzuk
+            const insertCartSql = 'INSERT INTO cart (user_id) VALUES (?)';
+            database.query(insertCartSql, [user_id], (err, result) => {
+                if (err) {
+                    console.error('Hiba a kosár létrehozásakor:', err);
+                    return res.status(500).json({ error: 'Hiba az SQL-ben', details: err });
+                }
+
+                res.status(201).json({
+                    message: 'Kosár sikeresen létrehozva',
+                    cart_id: result.insertId
+                });
+            });
+        }
     });
 };
 //eltávolítás a kosárból
