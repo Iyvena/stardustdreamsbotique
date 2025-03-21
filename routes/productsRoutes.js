@@ -11,7 +11,7 @@ const router = express.Router();
 router.get('/getALLproduct', getALLproduct);
 router.post('/uploadProduct', authenticateToken, isAdmin, upload.single('product'), uploadProduct);
 router.get("/filter", filterProducts);
-router.delete('/product/:product_id', deleteProduct);
+router.delete('/:product_id', deleteProduct);
 
 
 module.exports = router;

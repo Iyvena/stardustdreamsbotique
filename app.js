@@ -23,6 +23,7 @@ const productDescriptionRoutes = require('./routes/productDescriptionRoutes');
 const editProfileRoutes = require("./routes/profileRoutes");
 const searchRoutes = require('./routes/searchRoutes');
 const profileRoutes = require('./routes/profileRoutes');
+const productsRoutes = require('./routes/productsRoutes');
 
 const app = express();
 
@@ -56,6 +57,7 @@ app.use('/', productDescriptionRoutes);
 app.use('/api', searchRoutes);
 app.use("/api/products", productsRoutes); // Minden termékhez kapcsolódó API itt lesz
 app.use('/api/user', profileRoutes);
+app.use('/api/products', productsRoutes);
 
 
 
