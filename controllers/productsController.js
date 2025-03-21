@@ -1,4 +1,6 @@
 const database = require('../models/database');
+const upload = multer({ dest: 'uploads/' });
+
 
 //összes termék le kérdezése
 const getALLproduct = (req, res) => {
