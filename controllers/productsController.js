@@ -72,6 +72,7 @@ const uploadProduct = (req, res) => {
     });
 };
 
+//filter
 const filterProducts = (req, res) => {
     const { category_id, type_id } = req.query;
 
@@ -97,5 +98,44 @@ const filterProducts = (req, res) => {
     });
 };
 
+// Termék törlése
+const deleteProduct = (req, res) => {
+    const { product_id } = req.params;
 
-module.exports = { getALLproduct, uploadProduct, filterProducts };
+    if (!product_id) {
+        return res.status(400).json({ error: 'Nincs megadva termékazonosító (product_id).' });
+    }
+
+    // Először lekérdezzük a fájlnevet, hogy törölhessük a szerverről is
+    const getProductSql = 'SELECT product FROM products WHERE product_id = ?';
+    database.query(getProductSql, [product_id], (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: 'Hiba az SQL lekérdezésben', details: err });
+        }
+
+        if (result.length === 0) {
+            return res.status(404).json({ error: 'A termék nem található.' });
+        }
+
+        const filename = result[0].product; // A fájlnév
+
+        // Töröljük a képet a szerverről (ha szükséges)
+        const fs = require('fs');
+        const imagePath = `uploads/${filename}`; // Az útvonalat állítsd be, ahol a képek vannak
+        if (fs.existsSync(imagePath)) {
+            fs.unlinkSync(imagePath); // Fájl törlése
+        }
+
+        // Termék törlése az adatbázisból
+        const deleteSql = 'DELETE FROM products WHERE product_id = ?';
+        database.query(deleteSql, [product_id], (err, result) => {
+            if (err) {
+                return res.status(500).json({ error: 'Hiba az SQL törlésben', details: err });
+            }
+
+            res.status(200).json({ message: 'Termék sikeresen törölve' });
+        });
+    });
+};
+
+module.exports = { getALLproduct, uploadProduct, filterProducts, deleteProduct };
