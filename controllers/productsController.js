@@ -28,14 +28,14 @@ const uploadProduct = (req, res) => {
         });
     }
 
-    const { product_name, price, type_id, chategory_name } = req.body;
-    console.log(product_name, price,type_id,chategory_name, "uploadproductnál productname price typeid chategoryname baj");
+    const { product_name, price, type_id, chategory_name, description } = req.body;
+    console.log(product_name, price,type_id,chategory_name,  description, "uploadproductnál productname price typeid chategoryname baj");
     const product = req.file.filename;
     
 
     
 
-    if (!product_name || !price || !type_id || !chategory_name || !product) {
+    if (!product_name || !price || !type_id || !chategory_name || !description || !product) {
         return res.status(400).json({
             error: 'Kérlek add meg az összes szükséges adatot (termék neve, ára, típusa, kategória neve, fájl)',
             details: {
@@ -43,6 +43,7 @@ const uploadProduct = (req, res) => {
                 price,
                 type_id,
                 chategory_name,
+                description,
                 product
             }
         });
@@ -61,8 +62,8 @@ const uploadProduct = (req, res) => {
         console.log(chategory_id, "valamien chategoryid baj");
 
         
-        const sql = 'INSERT INTO products (user_id, product_name, price, type_id, chategory_id, product) VALUES (?, ?, ?, ?, ?, ?)';
-        database.query(sql, [req.user.id, product_name, price, type_id, chategory_id, product], (err, result) => {
+        const sql = 'INSERT INTO products (user_id, product_name, price, type_id, chategory_id, description, product) VALUES (?, ?, ?, ?, ?, ?, ?)';
+        database.query(sql, [req.user.id, product_name, price, type_id, chategory_id, description, product], (err, result) => {
             if (err) {
                 return res.status(500).json({ error: 'Hiba az SQL-ben', details: err });
             }
