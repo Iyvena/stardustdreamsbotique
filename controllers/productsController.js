@@ -29,8 +29,8 @@ const uploadProduct = (req, res) => {
         });
     }
 
-    const { product_name, price, type_id, chategory_name, description } = req.body;
-    console.log(product_name, price,type_id,chategory_name,  description, "uploadproductnál productname price typeid chategoryname baj");
+    const { product_name, description, price, type_id, chategory_name } = req.body;
+    console.log(product_name, description, price, type_id, chategory_name);
     const product = req.file.filename;  
 
     if (!product_name || !price || !type_id || !chategory_name || !description || !product) {
