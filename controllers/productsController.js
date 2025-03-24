@@ -22,10 +22,7 @@ const getALLproduct = (req, res) => {
 };
 
 //új termék felvitele
-const uploadProduct = (req, res) => {
-    console.log(req.body);
-    console.log(req.file);
-        
+const uploadProduct = (req, res) => {        
     if (!req.file) {
         return res.status(400).json({
             error: 'A fájl nem került feltöltésre. Kérlek válassz egy fájlt.'
