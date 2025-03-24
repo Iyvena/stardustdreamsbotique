@@ -23,6 +23,9 @@ const getALLproduct = (req, res) => {
 
 //új termék felvitele
 const uploadProduct = (req, res) => {
+    console.log(req.body);
+    console.log(req.file);
+        
     if (!req.file) {
         return res.status(400).json({
             error: 'A fájl nem került feltöltésre. Kérlek válassz egy fájlt.'
@@ -31,10 +34,7 @@ const uploadProduct = (req, res) => {
 
     const { product_name, price, type_id, chategory_name, description } = req.body;
     console.log(product_name, price,type_id,chategory_name,  description, "uploadproductnál productname price typeid chategoryname baj");
-    const product = req.file.filename;
-    
-
-    
+    const product = req.file.filename;  
 
     if (!product_name || !price || !type_id || !chategory_name || !description || !product) {
         return res.status(400).json({
