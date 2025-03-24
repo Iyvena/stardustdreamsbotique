@@ -29,25 +29,25 @@ const uploadProduct = (req, res) => {
         });
     }
 
-    const { product_name, description, price, type_id, chategory_name } = req.body;
-    console.log(product_name, description, price, type_id, chategory_name);
+    const { product_name, description, price, type_id, category_name } = req.body;
+    console.log(product_name, description, price, type_id, category_name);
     const product = req.file.filename;  
 
-    if (!product_name || !price || !type_id || !chategory_name || !description || !product) {
+    if (!product_name || !price || !type_id || !category_name || !description || !product) {
         return res.status(400).json({
             error: 'Kérlek add meg az összes szükséges adatot (termék neve, ára, típusa, kategória neve, fájl)',
             details: {
                 product_name,
                 price,
                 type_id,
-                chategory_name,
+                category_name,
                 description,
                 product
             }
         });
     }
     const getCategorySql = 'SELECT chategory_id FROM chategory WHERE chategory_name = ?';
-    database.query(getCategorySql, [chategory_name], (err, result) => {
+    database.query(getCategorySql, [category_name], (err, result) => {
         if (err) {
             return res.status(500).json({ error: 'Hiba az SQL-ben', details: err });
         }
