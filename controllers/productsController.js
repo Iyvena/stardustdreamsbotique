@@ -8,13 +8,13 @@ const getALLproduct = (req, res) => {
     //const sql = 'SELECT products.product_id, products.product_name, products.user_id, users.username, users.profile_pic, COUNT(likes.product_id) AS`like`, CASE WHEN EXISTS(SELECT 1 FROM likes WHERE likes.product_id = products.product_id AND likes.user_id = ?) THEN 1 ELSE 0 END AS alreadyLiked FROM products JOIN users ON products.user_id = users.user_id LEFT JOIN likes ON products.product_id = likes.product_id GROUP BY products.product_id'
     const sql = 'SELECT * FROM products';
 
-    database.query(sql, [user_id], (err, result) =>{
+    database.query(sql, [user_id], (err, result) => {
         if (err) {
-            return res.status(500).json({ error: 'Hiba az SQL-ben'});
+            return res.status(500).json({ error: 'Hiba az SQL-ben' });
         }
 
         if (result.lenght === 0) {
-            return res.status(404).json({ error: 'nincs még termék'});
+            return res.status(404).json({ error: 'nincs még termék' });
         }
 
         return res.status(200).json(result);
@@ -22,7 +22,7 @@ const getALLproduct = (req, res) => {
 };
 
 //új termék felvitele
-const uploadProduct = (req, res) => {        
+const uploadProduct = (req, res) => {
     if (!req.file) {
         return res.status(400).json({
             error: 'A fájl nem került feltöltésre. Kérlek válassz egy fájlt.'
@@ -31,7 +31,7 @@ const uploadProduct = (req, res) => {
 
     const { product_name, description, price, type_id, category_name } = req.body;
     console.log(product_name, description, price, type_id, category_name);
-    const product = req.file.filename; 
+    const product = req.file.filename;
     console.log(product);
 
     if (!product_name || !price || !type_id || !category_name || !description || !product) {
@@ -47,6 +47,7 @@ const uploadProduct = (req, res) => {
             }
         });
     }
+    /*
     const getCategorySql = 'SELECT chategory_id FROM chategory WHERE chategory_name = ?';
     console.log(`51. sorban: ${category_name}`);
     
@@ -63,17 +64,16 @@ const uploadProduct = (req, res) => {
 
         const chategory_id = result[0].chategory_id;
         console.log(chategory_id, "valamien chategoryid baj");
+    */
 
-        
-        const sql = 'INSERT INTO products (user_id, product_name, price, type_id, chategory_id, description, product) VALUES (?, ?, ?, ?, ?, ?, ?)';
-        database.query(sql, [req.user.id, product_name, price, type_id, chategory_id, description, product], (err, result) => {
-            if (err) {
-                console.log(`68. sor: ${err}`);
-                return res.status(500).json({ error: 'Hiba az SQL-ben', details: err });
-            }
-            console.log(result);
-            res.status(201).json({ message: 'Termék sikeresen feltöltve', product_id: result.insertId });
-        });
+    const sql = 'INSERT INTO products (product_id, product_name, price, product, type_id, chategory_id, user_id, description, ) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)';
+    database.query(sql, [product_name, price, product, type_id, category_name, req.user_id, description, ], (err, result) => {
+        if (err) {
+            console.log(`68. sor: ${err}`);
+            return res.status(500).json({ error: 'Hiba az SQL-ben', details: err });
+        }
+        console.log(result);
+        res.status(201).json({ message: 'Termék sikeresen feltöltve', product_id: result.insertId });
     });
 };
 
