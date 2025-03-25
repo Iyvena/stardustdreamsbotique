@@ -23,6 +23,9 @@ const getALLproduct = (req, res) => {
 
 //új termék felvitele
 const uploadProduct = (req, res) => {
+    const user_id = req.user_id;
+    console.log(`uploadProduct: ${user_id}`);
+    
     if (!req.file) {
         return res.status(400).json({
             error: 'A fájl nem került feltöltésre. Kérlek válassz egy fájlt.'
@@ -67,7 +70,7 @@ const uploadProduct = (req, res) => {
     */
 
     const sql = 'INSERT INTO products (product_id, product_name, price, product, type_id, chategory_id, user_id, description, ) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)';
-    database.query(sql, [product_name, price, product, type_id, category_name, req.user_id, description, ], (err, result) => {
+    database.query(sql, [product_name, price, product, type_id, category_name, user_id, description, ], (err, result) => {
         if (err) {
             console.log(`68. sor: ${err}`);
             return res.status(500).json({ error: 'Hiba az SQL-ben', details: err });
