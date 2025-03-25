@@ -31,7 +31,8 @@ const uploadProduct = (req, res) => {
 
     const { product_name, description, price, type_id, category_name } = req.body;
     console.log(product_name, description, price, type_id, category_name);
-    const product = req.file.filename;  
+    const product = req.file.filename; 
+    console.log(product);
 
     if (!product_name || !price || !type_id || !category_name || !description || !product) {
         return res.status(400).json({
