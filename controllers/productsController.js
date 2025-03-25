@@ -23,7 +23,7 @@ const getALLproduct = (req, res) => {
 
 //új termék felvitele
 const uploadProduct = (req, res) => {
-    const user_id = req.user_id;
+    const user_id = req.user.id;
     console.log(`uploadProduct: ${user_id}`);
     
     if (!req.file) {
