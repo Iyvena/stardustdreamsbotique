@@ -48,6 +48,8 @@ const uploadProduct = (req, res) => {
         });
     }
     const getCategorySql = 'SELECT chategory_id FROM chategory WHERE chategory_name = ?';
+    console.log(`51. sorban: ${category_name}`);
+    
     database.query(getCategorySql, [category_name], (err, result) => {
         if (err) {
             console.log(`52. sor: ${err}`);
