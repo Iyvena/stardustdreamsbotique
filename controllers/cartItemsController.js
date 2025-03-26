@@ -49,14 +49,14 @@ const addToCart = (req, res) => {
                     const product_price = priceResult[0].price;
                     const total_price = product_price * quantity;
 
-                    const insertSql = 'INSERT INTO cart_items (cart_id, product_id, quantity, total_price) VALUES (?, ?, ?, ?)';
-                    database.query(insertSql, [cart_id, product_id, quantity, total_price], (err, result) => {
+                    const insertSql = 'INSERT INTO cart_items (cart_id, product_id, quantity) VALUES (?, ?, ?)';
+                    database.query(insertSql, [cart_id, product_id, quantity], (err, result) => {
                         if (err) {
                             console.error('Hiba a termék kosárba helyezésekor:', err);
                             return res.status(500).json({ error: 'Hiba az SQL-ben', details: err });
                         }
 
-                        return res.status(201).json({ message: 'Termék hozzáadva a kosárhoz', total_price });
+                        return res.status(201).json({ message: 'Termék hozzáadva a kosárhoz' });
                     });
                 });
             }
