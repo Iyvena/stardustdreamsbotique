@@ -67,7 +67,8 @@ const checkCart = (req, res) => {
     console.log(user_id, "checkCartnál user_id");
 
     const sql = `
-        SELECT cart_items.cart_id, cart_items.product_id, products.name, products.price, 
+        SELECT cart_items.cart_id, cart_items.product_id, products.product_name, products.price, 
+               products.type_id, products.chategory_id, products.description,
                cart_items.quantity, (cart_items.quantity * products.price) AS total_price
         FROM cart_items
         JOIN cart ON cart_items.cart_id = cart.cart_id
@@ -84,6 +85,7 @@ const checkCart = (req, res) => {
         res.status(200).json(result);
     });
 };
+
 
 
 module.exports = { createCart, removeItemFromCart, checkCart };
