@@ -8,7 +8,7 @@ const { deleteProduct } = require("../controllers/productsController");
 
 const router = express.Router();
 //termék feltöltése és ellenörzése hogy admin e 
-router.get('/getALLproduct', authenticateToken, getALLproduct);
+router.get('/getALLproduct', getALLproduct);
 router.post('/uploadProduct', authenticateToken, isAdmin, upload.single('productImage'), uploadProduct);
 router.get("/filter", filterProducts);
 router.delete('/:product_id', authenticateToken, deleteProduct);
