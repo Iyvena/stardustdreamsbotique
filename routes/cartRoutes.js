@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { createCart } = require('../controllers/cartController');
+const cartController = require('../controllers/cartController');
 const authenticateUser = require('../middleware/jwtAuth');
 
 // Kosár műveletek
