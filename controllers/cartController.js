@@ -62,5 +62,28 @@ const removeItemFromCart = (req, res) => {
     });
 };
 
+const checkCart = (req, res) => {
+    const user_id = req.user.id;
+    console.log(user_id, "checkCartnál user_id");
 
-module.exports = { createCart, removeItemFromCart };
+    const sql = `
+        SELECT cart_items.cart_id, cart_items.product_id, products.name, products.price, 
+               cart_items.quantity, (cart_items.quantity * products.price) AS total_price
+        FROM cart_items
+        JOIN cart ON cart_items.cart_id = cart.cart_id
+        JOIN products ON cart_items.product_id = products.product_id
+        WHERE cart.user_id = ?;
+    `;
+
+    database.query(sql, [user_id], (err, result) => {
+        if (err) {
+            console.error('SQL Hiba a kosár lekérdezésekor:', err);
+            return res.status(500).json({ error: 'Hiba az SQL-ben', details: err });
+        }
+
+        res.status(200).json(result);
+    });
+};
+
+
+module.exports = { createCart, removeItemFromCart, checkCart };
