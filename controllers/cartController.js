@@ -1,11 +1,12 @@
 const database = require('../models/database');
 //kosár kreálás
 const createCart = (req, res) => {
-    const { user_id } = req.body;
+    const user_id = req.user.id; // A user ID most már a JWT tokenből jön
+
     console.log(user_id, "cartnál a userid");
 
     if (!user_id) {
-        return res.status(400).json({ error: 'A kosárhoz szükséges user_id' });
+        return res.status(400).json({ error: 'Felhasználó azonosítása sikertelen' });
     }
 
     const checkCartSql = 'SELECT * FROM cart WHERE user_id = ?';
@@ -16,13 +17,11 @@ const createCart = (req, res) => {
         }
 
         if (result.length > 0) {
-            // Ha létezik kosár, akkor nem csinálunk semmit, válaszolunk, hogy már létezik
             return res.status(200).json({
                 message: 'Kosár már létezik',
                 cart_id: result[0].cart_id
             });
         } else {
-            // Ha nem létezik, akkor létrehozzuk
             const insertCartSql = 'INSERT INTO cart (user_id) VALUES (?)';
             database.query(insertCartSql, [user_id], (err, result) => {
                 if (err) {
