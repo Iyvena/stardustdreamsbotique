@@ -8,6 +8,7 @@ router.post('/:product_id', authenticateToken, likeProduct);
 //kedvencek checkolása
 router.get('/check', authenticateToken, checkLike);
 //kedvenc eltávolítása
-router.delete('/unlike', authenticateToken, unlikeProduct);
+router.delete('/likes/:product_id', authenticateToken, unlikeProduct);
+
 
 module.exports = router;

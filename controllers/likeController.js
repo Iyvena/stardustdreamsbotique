@@ -56,9 +56,10 @@ const likeProduct = (req, res) => {
 
 // Kedvenc eltávolítása
 const unlikeProduct = (req, res) => {
-    const { product_id } = req.body;
-    console.log(product_id, "unlikeproductnál, productid");
+    const { product_id } = req.params; // Az ID az URL-ből jön
     const user_id = req.user.id;
+
+    console.log(product_id, "unlikeproductnál, productid");
     console.log(user_id, "unlikeproduct userid");
 
     if (!product_id) {
