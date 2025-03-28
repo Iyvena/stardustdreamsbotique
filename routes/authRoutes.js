@@ -1,6 +1,6 @@
 const express = require('express');
 const authenticateToken = require('../middleware/jwtAuth');
-const { register, login, logout, loginUser, isLoggedIn } = require('../controllers/authControllers');
+const { register, login, logout, loginUser, isLoggedIn, detectRole } = require('../controllers/authControllers');
 
 
 const router = express.Router();
@@ -16,7 +16,7 @@ router.post('./login', authenticateToken, loginUser);
 //isLoggedIn
 router.get('/isLoggedIn', authenticateToken, isLoggedIn);
 
-router.get('/role', authenticateToken, isLoggedIn);
+router.get('/role', authenticateToken, detectRole);
 
 
 module.exports = router;

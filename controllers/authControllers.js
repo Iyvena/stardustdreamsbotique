@@ -167,4 +167,8 @@ const isLoggedIn = (req, res) => {
     }
 }
 
-module.exports = { register, login, logout, isAdmin, loginUser, isLoggedIn };
+const detectRole=(req, res) => {
+    res.json({ role: req.user.role });
+}
+
+module.exports = { register, login, logout, isAdmin, loginUser, isLoggedIn, detectRole };
