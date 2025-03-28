@@ -23,7 +23,6 @@ const productDescriptionRoutes = require('./routes/productDescriptionRoutes');
 const editProfileRoutes = require("./routes/profileRoutes");
 const searchRoutes = require('./routes/searchRoutes');
 const profileRoutes = require('./routes/profileRoutes');
-const likeRoutes = require('./routes/likeRoutes');
 
 const app = express();
 
