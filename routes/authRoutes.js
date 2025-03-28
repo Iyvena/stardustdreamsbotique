@@ -16,6 +16,8 @@ router.post('./login', authenticateToken, loginUser);
 //isLoggedIn
 router.get('/isLoggedIn', authenticateToken, isLoggedIn);
 
+router.get('/role', authenticateToken, isLoggedIn);
+
 
 module.exports = router;
 //valami
