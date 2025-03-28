@@ -44,7 +44,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 //útvonalak használata
 app.use('/api/auth', authRoutes);
 app.use("/api/profile", editProfileRoutes);
-app.use('/api', likeRoutes);
+app.use('/api/likes', likeRoutes);
 app.use('/api/products', productsRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/order_items', orderItemsRoutes);
