@@ -82,14 +82,14 @@ const uploadProduct = (req, res) => {
 
 //filter
 const filterProducts = (req, res) => {
-    const { category_id, type_id } = req.query;
+    const { chategory_id, type_id } = req.query;
 
     let sql = "SELECT * FROM products WHERE 1=1";
     let values = [];
 
-    if (category_id) {
+    if (chategory_id) {
         sql += " AND category_id = ?";
-        values.push(category_id);
+        values.push(chategory_id);
     }
 
     if (type_id) {
