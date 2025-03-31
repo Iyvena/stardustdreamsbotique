@@ -148,18 +148,20 @@ const deleteProduct = (req, res) => {
 
 const updateProduct = (req, res) => {
     const user_id = req.user.id;
-    const product_id = req.params.id; // A termék ID-jét az URL-ből vesszük
+    const product_id = req.params.id;  // A termék ID-ja
+
     console.log(`updateProduct: user_id=${user_id}, product_id=${product_id}`);
+    console.log('Request body:', req.body); // Logoljuk a beérkező adatokat
+    console.log('Uploaded file:', req.file); // Logoljuk a fájlt
 
     const { product_name, description, price, type_id, chategory_id } = req.body;
-    const product = req.file ? req.file.filename : null; // Ha van új fájl, frissítjük a képet
+    const product = req.file ? req.file.filename : null;  // Ha van új fájl, akkor azt használjuk
 
     // Ellenőrizzük, hogy minden szükséges adat megvan-e
     if (!product_name || !price || !type_id || !chategory_id || !description) {
         return res.status(400).json({ error: 'Hiányzó adatok a frissítéshez.' });
     }
 
-    // SQL lekérdezés az adatok frissítésére
     let sql = `
         UPDATE products
         SET product_name = ?, description = ?, price = ?, type_id = ?, chategory_id = ?
@@ -167,7 +169,6 @@ const updateProduct = (req, res) => {
     `;
     let values = [product_name, description, price, type_id, chategory_id, product_id, user_id];
 
-    // Ha van új fájl, akkor hozzáadjuk a frissített képet is
     if (product) {
         sql = `
             UPDATE products
