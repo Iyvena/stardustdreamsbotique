@@ -147,23 +147,19 @@ const deleteProduct = (req, res) => {
 };
 
 const updateProduct = (req, res) => {
-    const user_id = req.user.id;  // A felhasználó ID-ja
-    const product_id = req.params.id;  // A termék ID-ja, amit frissíteni szeretnénk
-
+    const user_id = req.user.id;
+    const product_id = req.params.id; // A termék ID-jét az URL-ből vesszük
     console.log(`updateProduct: user_id=${user_id}, product_id=${product_id}`);
 
     const { product_name, description, price, type_id, chategory_id } = req.body;
-    const product = req.file ? req.file.filename : null;  // Ha új fájl lett feltöltve, akkor azt használjuk
+    const product = req.file ? req.file.filename : null; // Ha van új fájl, frissítjük a képet
 
-    console.log('Request body:', req.body);
-    console.log('Uploaded file:', req.file);
-
-    // Ellenőrizzük, hogy minden szükséges mezőt megadtak-e
+    // Ellenőrizzük, hogy minden szükséges adat megvan-e
     if (!product_name || !price || !type_id || !chategory_id || !description) {
         return res.status(400).json({ error: 'Hiányzó adatok a frissítéshez.' });
     }
 
-    // Az SQL lekérdezés, amit a termék frissítésére használunk
+    // SQL lekérdezés az adatok frissítésére
     let sql = `
         UPDATE products
         SET product_name = ?, description = ?, price = ?, type_id = ?, chategory_id = ?
@@ -171,7 +167,7 @@ const updateProduct = (req, res) => {
     `;
     let values = [product_name, description, price, type_id, chategory_id, product_id, user_id];
 
-    // Ha új képet is feltöltöttek, akkor frissítjük a képet is
+    // Ha van új fájl, akkor hozzáadjuk a frissített képet is
     if (product) {
         sql = `
             UPDATE products
@@ -181,19 +177,16 @@ const updateProduct = (req, res) => {
         values = [product_name, description, price, type_id, chategory_id, product, product_id, user_id];
     }
 
-    // SQL lekérdezés végrehajtása
     database.query(sql, values, (err, result) => {
         if (err) {
             console.log('SQL hiba:', err);
             return res.status(500).json({ error: 'Hiba az adatbázis művelet során.', details: err });
         }
 
-        // Ha nincs hatással az SQL lekérdezés (pl. nincs ilyen termék), akkor hibaüzenet
         if (result.affectedRows === 0) {
             return res.status(404).json({ error: 'A termék nem található vagy nincs jogosultságod frissíteni.' });
         }
 
-        // Sikeres frissítés
         return res.status(200).json({ message: 'Termék sikeresen frissítve!' });
     });
 };
