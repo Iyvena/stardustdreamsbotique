@@ -14,7 +14,7 @@ router.get('/getALLproduct', getALLproduct);
 // Termék feltöltése (csak admin)
 router.post('/uploadProduct', authenticateToken, isAdmin, upload.single('productImage'), uploadProduct);
 // Termék frissítése (csak admin)
-router.put('/:id', authenticateToken, upload.single('product'), updateProduct);
+router.put('/:id', authenticateToken, isAdmin, upload.single('product'), updateProduct);
 // Termékek szűrése
 router.get("/filter", filterProducts);
 // Termék törlése (csak admin)

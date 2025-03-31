@@ -147,44 +147,40 @@ const deleteProduct = (req, res) => {
 };
 
 const updateProduct = (req, res) => {
-    const user_id = req.user.id;
-    const product_id = req.params.id;
-    
-    if (!req.user.isAdmin) {
-        return res.status(403).json({ error: 'Csak admin frissítheti a termékeket!' });
-    }
+    const user_id = req.user.id; // A tokenből származó felhasználói ID
+    const product_id = req.params.id; // A termék ID-je, amelyet frissíteni akarunk
+
+    console.log(`updateProduct: user_id=${user_id}, product_id=${product_id}`);
 
     const { product_name, description, price, type_id, category_name } = req.body;
     const product = req.file ? req.file.filename : null; // Ha van új fájl, frissítjük a képet
 
+    // Ellenőrizzük, hogy minden szükséges adat rendelkezésre áll-e
     if (!product_name || !price || !type_id || !category_name || !description) {
         return res.status(400).json({ error: 'Hiányzó adatok a frissítéshez.' });
     }
 
-    let sql = `
-        UPDATE products
-        SET product_name = ?, description = ?, price = ?, type_id = ?, category_name = ?
-        WHERE product_id = ? AND user_id = ?
-    `;
+    // Ha van új fájl, azt is frissítjük
+    let sql = `UPDATE products SET product_name = ?, description = ?, price = ?, type_id = ?, category_name = ? WHERE product_id = ? AND user_id = ?`;
     let values = [product_name, description, price, type_id, category_name, product_id, user_id];
 
     if (product) {
-        sql = `
-            UPDATE products
-            SET product_name = ?, description = ?, price = ?, type_id = ?, category_name = ?, product = ?
-            WHERE product_id = ? AND user_id = ?
-        `;
+        sql = `UPDATE products SET product_name = ?, description = ?, price = ?, type_id = ?, category_name = ?, product = ? WHERE product_id = ? AND user_id = ?`;
         values = [product_name, description, price, type_id, category_name, product, product_id, user_id];
     }
 
+    // SQL lekérdezés az adatbázisba a frissítéshez
     database.query(sql, values, (err, result) => {
         if (err) {
             return res.status(500).json({ error: 'Hiba az adatbázis művelet során.' });
         }
+
+        // Ha nincs olyan termék, amelyet az admin próbál frissíteni, hibaüzenetet küldünk
         if (result.affectedRows === 0) {
-            return res.status(404).json({ error: 'A termék nem található vagy nincs jogosultságod.' });
+            return res.status(404).json({ error: 'A termék nem található vagy nincs jogosultságod frissíteni.' });
         }
 
+        // A sikeres frissítés után
         return res.status(200).json({ message: 'Termék sikeresen frissítve!' });
     });
 };
