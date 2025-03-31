@@ -5,6 +5,7 @@ const { getALLproduct, uploadProduct } = require('../controllers/productsControl
 const { isAdmin } = require('../controllers/authControllers');
 const { filterProducts } = require("../controllers/productsController");
 const { deleteProduct } = require("../controllers/productsController");
+const { updateProduct } = require('../controllers/productsController');
 
 const router = express.Router();
 //termék feltöltése és ellenörzése hogy admin e
