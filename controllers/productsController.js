@@ -151,32 +151,58 @@ const updateProduct = (req, res) => {
     const product_id = req.params.id;  // A termék ID-ja
 
     console.log(`updateProduct: user_id=${user_id}, product_id=${product_id}`);
-    console.log('Request body:', req.body); // Logoljuk a beérkező adatokat
-    console.log('Uploaded file:', req.file); // Logoljuk a fájlt
+    console.log('Request body:', req.body);  // Logoljuk a beérkező adatokat
+    console.log('Uploaded file:', req.file);  // Logoljuk a fájlt
 
     const { product_name, description, price, type_id, chategory_id } = req.body;
     const product = req.file ? req.file.filename : null;  // Ha van új fájl, akkor azt használjuk
 
-    // Ellenőrizzük, hogy minden szükséges adat megvan-e
-    if (!product_name || !price || !type_id || !chategory_id || !description) {
-        return res.status(400).json({ error: 'Hiányzó adatok a frissítéshez.' });
+    // Ellenőrizzük, hogy legalább egy mező rendelkezésre áll
+    if (!product_name && !description && !price && !type_id && !chategory_id && !product) {
+        return res.status(400).json({ error: 'Legalább egy adatot meg kell adni a frissítéshez.' });
     }
 
-    let sql = `
-        UPDATE products
-        SET product_name = ?, description = ?, price = ?, type_id = ?, chategory_id = ?
-        WHERE product_id = ? AND user_id = ?
-    `;
-    let values = [product_name, description, price, type_id, chategory_id, product_id, user_id];
+    // Alap SQL lekérdezés
+    let sql = `UPDATE products SET `;
+    let values = [];
+
+    // Feltételesen hozzáadjuk a frissíteni kívánt adatokat
+    if (product_name) {
+        sql += `product_name = ?, `;
+        values.push(product_name);
+    }
+
+    if (description) {
+        sql += `description = ?, `;
+        values.push(description);
+    }
+
+    if (price) {
+        sql += `price = ?, `;
+        values.push(price);
+    }
+
+    if (type_id) {
+        sql += `type_id = ?, `;
+        values.push(type_id);
+    }
+
+    if (chategory_id) {
+        sql += `chategory_id = ?, `;
+        values.push(chategory_id);
+    }
 
     if (product) {
-        sql = `
-            UPDATE products
-            SET product_name = ?, description = ?, price = ?, type_id = ?, chategory_id = ?, product = ?
-            WHERE product_id = ? AND user_id = ?
-        `;
-        values = [product_name, description, price, type_id, chategory_id, product, product_id, user_id];
+        sql += `product = ?, `;
+        values.push(product);
     }
+
+    // Levágjuk az utolsó vesszőt
+    sql = sql.slice(0, -2);
+
+    // Hozzáadjuk a WHERE feltételt
+    sql += ` WHERE product_id = ? AND user_id = ?`;
+    values.push(product_id, user_id);
 
     database.query(sql, values, (err, result) => {
         if (err) {
