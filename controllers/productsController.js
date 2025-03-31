@@ -155,6 +155,9 @@ const updateProduct = (req, res) => {
     const { product_name, description, price, type_id, category_name } = req.body;
     const product = req.file ? req.file.filename : null; // Ha van új fájl, frissítjük a képet
 
+    console.log('Request body:', req.body);  // Debugging: logoljuk a body-t
+    console.log('Uploaded file:', req.file); // Debugging: logoljuk a feltöltött fájlt
+
     // Ellenőrizzük, hogy minden szükséges adat rendelkezésre áll-e
     if (!product_name || !price || !type_id || !category_name || !description) {
         return res.status(400).json({ error: 'Hiányzó adatok a frissítéshez.' });
@@ -172,7 +175,6 @@ const updateProduct = (req, res) => {
     // SQL lekérdezés az adatbázisba a frissítéshez
     database.query(sql, values, (err, result) => {
         if (err) {
-            // Részletes hibaüzenet
             console.log('SQL hiba:', err); // Logoljuk a hiba részleteit
             return res.status(500).json({ error: 'Hiba az adatbázis művelet során.', details: err });
         }
