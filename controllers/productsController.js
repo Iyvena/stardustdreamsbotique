@@ -148,26 +148,33 @@ const deleteProduct = (req, res) => {
 
 const updateProduct = (req, res) => {
     const user_id = req.user.id;
-    const product_id = req.params.id;
-
+    const product_id = req.params.id; // A termék ID-jét az URL-ből vesszük
     console.log(`updateProduct: user_id=${user_id}, product_id=${product_id}`);
 
-    const { product_name, description, price, type_id, chategory_name } = req.body;
-    const product = req.file ? req.file.filename : null;
+    const { product_name, description, price, type_id, chategory_id } = req.body;
+    const product = req.file ? req.file.filename : null; // Ha van új fájl, frissítjük a képet
 
-    console.log('Request body:', req.body);
-    console.log('Uploaded file:', req.file);
-
-    if (!product_name || !price || !type_id || !chategory_name || !description) {
+    // Ellenőrizzük, hogy minden szükséges adat megvan-e
+    if (!product_name || !price || !type_id || !chategory_id || !description) {
         return res.status(400).json({ error: 'Hiányzó adatok a frissítéshez.' });
     }
 
-    let sql = `UPDATE products SET product_name = ?, description = ?, price = ?, type_id = ?, chategory_name = ? WHERE product_id = ? AND user_id = ?`;
-    let values = [product_name, description, price, type_id, chategory_name, product_id, user_id];
+    // SQL lekérdezés az adatok frissítésére
+    let sql = `
+        UPDATE products
+        SET product_name = ?, description = ?, price = ?, type_id = ?, chategory_id = ?
+        WHERE product_id = ? AND user_id = ?
+    `;
+    let values = [product_name, description, price, type_id, chategory_id, product_id, user_id];
 
+    // Ha van új fájl, akkor hozzáadjuk a frissített képet is
     if (product) {
-        sql = `UPDATE products SET product_name = ?, description = ?, price = ?, type_id = ?, chategory_name = ?, product = ? WHERE product_id = ? AND user_id = ?`;
-        values = [product_name, description, price, type_id, chategory_name, product, product_id, user_id];
+        sql = `
+            UPDATE products
+            SET product_name = ?, description = ?, price = ?, type_id = ?, chategory_id = ?, product = ?
+            WHERE product_id = ? AND user_id = ?
+        `;
+        values = [product_name, description, price, type_id, chategory_id, product, product_id, user_id];
     }
 
     database.query(sql, values, (err, result) => {
