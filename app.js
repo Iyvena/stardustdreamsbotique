@@ -58,6 +58,7 @@ app.use("/api/products", productsRoutes); // Minden termékhez kapcsolódó API 
 app.use('/api/user', profileRoutes);
 app.use('/api/products', productsRoutes);
 app.use('/api', likeRoutes);
+app.use('/api/profile', profileRoutes);
 
 
 

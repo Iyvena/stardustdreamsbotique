@@ -109,19 +109,19 @@ const editProfilePic = (req, res) => {
 
 //profilepic show
 const getProfilePic = (req, res) => {
-    const user_id = req.user.id;
-    console.log(user_id, "getpfppic userid-s gond");
+    const user_id = req.user.id; // Feltételezve, hogy a felhasználó be van jelentkezve
+    console.log(user_id, "getProfilePic user_id");
 
     const sql = 'SELECT profile_pic FROM users WHERE user_id = ?';
     database.query(sql, [user_id], (err, result) => {
         if (err) {
-            return res.status(500).json({ error: 'Hiba az SQL-ben'});
+            return res.status(500).json({ error: 'Hiba az SQL lekérdezésben' });
         }
-        if (result.lenght === 0) {
-            return res.status(404).json({ error: 'a felhasznló nem található, vagy nem létezik'});
+        if (result.length === 0) {
+            return res.status(404).json({ error: 'A felhasználó nem található, vagy nem létezik' });
         }
 
-        return res.status(200).json(result);
+        return res.status(200).json({ profile_pic: result[0].profile_pic });
     });
 };
 

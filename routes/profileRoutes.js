@@ -9,7 +9,7 @@ router.put("/editProfileName", authenticateToken, editProfileName);
 router.put('/editProfilePassword', authenticateToken, editProfilePassword);
 router.put('/editProfileAdress', authenticateToken, editProfileAdress);
 router.put('/editProfilePic', authenticateToken, upload.single('profile_pic'), editProfilePic);
-router.get('/getProfilePic', authenticateToken, getProfilePic);
+router.get('/pic', authenticateToken, getProfilePic);
 router.get('/username', authenticateToken, getUsername);
 router.get('/address', authenticateToken, getAddress);
 
