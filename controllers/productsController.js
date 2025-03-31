@@ -84,66 +84,33 @@ const uploadProduct = (req, res) => {
 const filterProducts = (req, res) => {
     const { chategory_id, type_id } = req.query;
 
-    let sql = "SELECT * FROM products WHERE 1=1";
+    let sql = "SELECT p.* FROM products p";
     let values = [];
 
-    // Először meg kell keresni a chategory_id alapján a chategory_name-t
+    // Ha chategory_id van megadva, szűrjük a kategóriát
     if (chategory_id) {
-        sql = `SELECT chategory_name FROM chategory WHERE chategory_id = ?`;
+        sql += " INNER JOIN categories c ON p.category_id = c.category_id WHERE c.category_id = ?";
         values.push(chategory_id);
-
-        database.query(sql, values, (err, result) => {
-            if (err) {
-                console.error("Query error: ", err);
-                return res.status(500).json({ error: "Database query failed", details: err });
-            }
-
-            if (result.length === 0) {
-                return res.status(404).json({ error: "Nincs ilyen kategória!" });
-            }
-
-            const chategory_name = result[0].chategory_name;
-
-            // Most, hogy tudjuk a chategory_name-t, folytathatjuk a termékek szűrését
-            let sqlProducts = "SELECT * FROM products WHERE chategory_name = ?";
-            let valuesProducts = [chategory_name];
-
-            if (type_id) {
-                sqlProducts += " AND type_id = ?";
-                valuesProducts.push(type_id);
-            }
-
-            database.query(sqlProducts, valuesProducts, (err, results) => {
-                if (err) {
-                    console.error("Query error: ", err);
-                    return res.status(500).json({ error: "Database query failed", details: err });
-                }
-
-                if (results.length === 0) {
-                    return res.status(404).json({ error: "Nincs találat a keresett termékre" });
-                }
-
-                res.json(results);
-            });
-        });
     } else {
-        let sqlProducts = "SELECT * FROM products WHERE 1=1";
-        let valuesProducts = [];
-
-        if (type_id) {
-            sqlProducts += " AND type_id = ?";
-            valuesProducts.push(type_id);
-        }
-
-        database.query(sqlProducts, valuesProducts, (err, results) => {
-            if (err) {
-                console.error("Query error: ", err);
-                return res.status(500).json({ error: "Database query failed", details: err });
-            }
-
-            res.json(results);
-        });
+        sql += " WHERE 1=1"; // alapértelmezett szűrés minden termékre
     }
+
+    // Ha type_id is meg van adva, szűrjük a típust is
+    if (type_id) {
+        sql += " AND p.type_id = ?";
+        values.push(type_id);
+    }
+
+    database.query(sql, values, (err, results) => {
+        if (err) {
+            console.error("Query error: ", err);
+            return res.status(500).json({ error: "Database query failed", details: err });
+        }
+        if (results.length === 0) {
+            return res.status(404).json({ error: "Nincs találat a keresett termékre" });
+        }
+        res.json(results);
+    });
 };
 // Termék törlése
 const deleteProduct = (req, res) => {
