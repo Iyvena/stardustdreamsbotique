@@ -147,7 +147,7 @@ const deleteProduct = (req, res) => {
 };
 
 const updateProduct = (req, res) => {
-    const user_id = req.user.id; // A tokenből származó felhasználói ID
+    const user_id = req.user.id;
     const product_id = req.params.id; // A termék ID-ja, amelyet frissíteni akarunk
 
     console.log(`updateProduct: user_id=${user_id}, product_id=${product_id}`);
