@@ -148,7 +148,7 @@ const deleteProduct = (req, res) => {
 
 const updateProduct = (req, res) => {
     const user_id = req.user.id; // A tokenből származó felhasználói ID
-    const product_id = req.params.id; // A termék ID-je, amelyet frissíteni akarunk
+    const product_id = req.params.id; // A termék ID-ja, amelyet frissíteni akarunk
 
     console.log(`updateProduct: user_id=${user_id}, product_id=${product_id}`);
 
@@ -172,7 +172,9 @@ const updateProduct = (req, res) => {
     // SQL lekérdezés az adatbázisba a frissítéshez
     database.query(sql, values, (err, result) => {
         if (err) {
-            return res.status(500).json({ error: 'Hiba az adatbázis művelet során.' });
+            // Részletes hibaüzenet
+            console.log('SQL hiba:', err); // Logoljuk a hiba részleteit
+            return res.status(500).json({ error: 'Hiba az adatbázis művelet során.', details: err });
         }
 
         // Ha nincs olyan termék, amelyet az admin próbál frissíteni, hibaüzenetet küldünk
