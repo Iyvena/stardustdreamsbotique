@@ -1,4 +1,4 @@
-const database = require('../models/database');
+/*const database = require('../models/database');
 //hozzáadni a termékeket a kosárhoz
 const addToCart = (req, res) => {
     const user_id = req.user.id; // A user ID a JWT tokenből jön
@@ -64,4 +64,4 @@ const addToCart = (req, res) => {
     });
 };
 
-module.exports = { addToCart };
+module.exports = { addToCart };*/

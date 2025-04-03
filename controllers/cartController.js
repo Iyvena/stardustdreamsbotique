@@ -1,27 +1,28 @@
 const database = require('../models/database');
 //kosár kreálás
-const createCart = (req, res) => {
-    const user_id = req.user.id; // A user ID most már a JWT tokenből jön
+const addToCart = (req, res) => {
+    const user_id = req.user.id; // A user ID a JWT tokenből jön
+    const { product_id, quantity } = req.body;
 
-    console.log(user_id, "cartnál a userid");
-
-    if (!user_id) {
-        return res.status(400).json({ error: 'Felhasználó azonosítása sikertelen' });
+    if (!product_id || !quantity) {
+        return res.status(400).json({ error: 'Hiányzó adatok a kosárhoz adásnál' });
     }
 
-    const checkCartSql = 'SELECT * FROM cart WHERE user_id = ?';
-    database.query(checkCartSql, [user_id], (err, result) => {
+    // 1️⃣ Ellenőrizzük, hogy van-e már kosara a felhasználónak
+    const checkCartSql = 'SELECT cart_id FROM cart WHERE user_id = ?';
+    database.query(checkCartSql, [user_id], (err, cartResult) => {
         if (err) {
             console.error('Hiba a kosár ellenőrzésekor:', err);
             return res.status(500).json({ error: 'Hiba az SQL-ben', details: err });
         }
 
-        if (result.length > 0) {
-            return res.status(200).json({
-                message: 'Kosár már létezik',
-                cart_id: result[0].cart_id
-            });
+        let cart_id;
+        if (cartResult.length > 0) {
+            // Ha már van kosár, akkor használjuk annak ID-ját
+            cart_id = cartResult[0].cart_id;
+            addItemToCart(cart_id, product_id, quantity, res);
         } else {
+            // Ha nincs kosár, akkor létrehozzuk
             const insertCartSql = 'INSERT INTO cart (user_id) VALUES (?)';
             database.query(insertCartSql, [user_id], (err, result) => {
                 if (err) {
@@ -29,25 +30,81 @@ const createCart = (req, res) => {
                     return res.status(500).json({ error: 'Hiba az SQL-ben', details: err });
                 }
 
-                res.status(201).json({
-                    message: 'Kosár sikeresen létrehozva',
-                    cart_id: result.insertId
-                });
+                cart_id = result.insertId;
+                addItemToCart(cart_id, product_id, quantity, res);
             });
         }
     });
 };
-//eltávolítás a kosárból
+
+// 🔹 Segédfüggvény a termék kosárba helyezésére vagy frissítésére
+const addItemToCart = (cart_id, product_id, quantity, res) => {
+    const checkItemSql = 'SELECT quantity FROM cart_items WHERE cart_id = ? AND product_id = ?';
+
+    database.query(checkItemSql, [cart_id, product_id], (err, itemResult) => {
+        if (err) {
+            console.error('Hiba a termék ellenőrzésekor:', err);
+            return res.status(500).json({ error: 'Hiba az SQL-ben', details: err });
+        }
+
+        if (itemResult.length > 0) {
+            // Ha már van ilyen termék a kosárban, frissítjük a mennyiséget
+            const newQuantity = itemResult[0].quantity + quantity;
+            const updateSql = 'UPDATE cart_items SET quantity = ? WHERE cart_id = ? AND product_id = ?';
+            database.query(updateSql, [newQuantity, cart_id, product_id], (err) => {
+                if (err) {
+                    console.error('Hiba a termék frissítésekor:', err);
+                    return res.status(500).json({ error: 'Hiba az SQL-ben', details: err });
+                }
+                return res.status(200).json({ message: 'Termék mennyisége frissítve a kosárban' });
+            });
+        } else {
+            // Ha nincs benne, akkor hozzáadjuk
+            const insertSql = 'INSERT INTO cart_items (cart_id, product_id, quantity) VALUES (?, ?, ?)';
+            database.query(insertSql, [cart_id, product_id, quantity], (err) => {
+                if (err) {
+                    console.error('Hiba a termék hozzáadásakor:', err);
+                    return res.status(500).json({ error: 'Hiba az SQL-ben', details: err });
+                }
+                return res.status(201).json({ message: 'Termék hozzáadva a kosárhoz' });
+            });
+        }
+    });
+};
+
+// 🔹 Kosár ellenőrzése
+const checkCart = (req, res) => {
+    const user_id = req.user.id;
+
+    const sql = `
+        SELECT cart_items.cart_id, cart_items.product_id, products.product_name, products.price, 
+               products.type_id, products.chategory_id, products.description,
+               cart_items.quantity, (cart_items.quantity * products.price) AS total_price
+        FROM cart_items
+        JOIN cart ON cart_items.cart_id = cart.cart_id
+        JOIN products ON cart_items.product_id = products.product_id
+        WHERE cart.user_id = ?;
+    `;
+
+    database.query(sql, [user_id], (err, result) => {
+        if (err) {
+            console.error('Hiba a kosár lekérdezésekor:', err);
+            return res.status(500).json({ error: 'Hiba az SQL-ben', details: err });
+        }
+
+        res.status(200).json(result);
+    });
+};
+
+// 🔹 Termék eltávolítása a kosárból
 const removeItemFromCart = (req, res) => {
     const { cart_item_id } = req.params;
-    console.log(cart_item_id, "cartból el távolításból cartitemID gond");
 
     if (!cart_item_id) {
         return res.status(400).json({ error: "Hiányzó cart_item_id" });
     }
 
     const deleteItemSql = 'DELETE FROM cart_items WHERE cart_item_id = ?';
-    
     database.query(deleteItemSql, [cart_item_id], (err, result) => {
         if (err) {
             console.error('Hiba a termék törlésekor:', err);
@@ -62,30 +119,6 @@ const removeItemFromCart = (req, res) => {
     });
 };
 
-const checkCart = (req, res) => {
-    const user_id = req.user.id;
-    console.log(user_id, "checkCartnál user_id");
-
-    const sql = `
-        SELECT cart_items.cart_id, cart_items.product_id, products.product_name, products.price, 
-               products.type_id, products.chategory_id, products.description,
-               cart_items.quantity, (cart_items.quantity * products.price) AS total_price
-        FROM cart_items
-        JOIN cart ON cart_items.cart_id = cart.cart_id
-        JOIN products ON cart_items.product_id = products.product_id
-        WHERE cart.user_id = ?;
-    `;
-
-    database.query(sql, [user_id], (err, result) => {
-        if (err) {
-            console.error('SQL Hiba a kosár lekérdezésekor:', err);
-            return res.status(500).json({ error: 'Hiba az SQL-ben', details: err });
-        }
-
-        res.status(200).json(result);
-    });
-};
 
 
-
-module.exports = { createCart, removeItemFromCart, checkCart };
+module.exports = { addToCart, removeItemFromCart, checkCart };
