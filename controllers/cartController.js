@@ -115,8 +115,55 @@ const removeItemFromCart = (req, res) => {
         res.status(200).json({ message: 'A termék sikeresen eltávolítva a kosárból' });
     });
 };
+const updateQuantityInCart = (req, res) => {
+    const user_id = req.user.id;
+    const { product_id, quantity } = req.body;
+
+    if (!product_id || quantity === undefined) {
+        return res.status(400).json({ error: 'Hiányzó adatok a mennyiség frissítéséhez' });
+    }
+
+    // Ellenőrizzük, hogy a felhasználónak van-e kosara
+    const checkCartSql = 'SELECT cart_id FROM cart WHERE user_id = ?';
+    database.query(checkCartSql, [user_id], (err, cartResult) => {
+        if (err) {
+            console.error('Hiba a kosár ellenőrzésekor:', err);
+            return res.status(500).json({ error: 'Hiba az SQL-ben', details: err });
+        }
+
+        if (cartResult.length === 0) {
+            return res.status(404).json({ error: 'A felhasználónak nincs kosara' });
+        }
+
+        const cart_id = cartResult[0].cart_id;
+
+        // Ellenőrizzük, hogy a termék benne van-e a kosárban
+        const checkItemSql = 'SELECT * FROM cart_items WHERE cart_id = ? AND product_id = ?';
+        database.query(checkItemSql, [cart_id, product_id], (err, itemResult) => {
+            if (err) {
+                console.error('Hiba a termék ellenőrzésekor:', err);
+                return res.status(500).json({ error: 'Hiba az SQL-ben', details: err });
+            }
+
+            if (itemResult.length === 0) {
+                return res.status(404).json({ error: 'A termék nem található a kosárban' });
+            }
+
+            // Ha megtaláltuk, frissítjük a quantity-t
+            const updateQuantitySql = 'UPDATE cart_items SET quantity = ? WHERE cart_id = ? AND product_id = ?';
+            database.query(updateQuantitySql, [quantity, cart_id, product_id], (err) => {
+                if (err) {
+                    console.error('Hiba a mennyiség frissítésekor:', err);
+                    return res.status(500).json({ error: 'Hiba az SQL-ben', details: err });
+                }
+
+                return res.status(200).json({ message: 'A mennyiség frissítve lett' });
+            });
+        });
+    });
+};
 
 
 
 
-module.exports = { purchaseProduct, removeItemFromCart, checkCart, addToCart };
+module.exports = { purchaseProduct, removeItemFromCart, checkCart, addToCart, updateQuantityInCart };
