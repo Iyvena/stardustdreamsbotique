@@ -34,8 +34,8 @@ const purchaseProduct = (req, res) => {
     });
 };
 
-// 🔹 Segédfüggvény a termék kosárba helyezésére vagy frissítésére
-const addItemToCart = (cart_id, product_id, quantity, res) => {
+// A termék hozzáadása a kosárhoz vagy frissítése
+const addToCart = (cart_id, product_id, quantity, res) => {
     const checkItemSql = 'SELECT quantity FROM cart_items WHERE cart_id = ? AND product_id = ?';
 
     database.query(checkItemSql, [cart_id, product_id], (err, itemResult) => {
@@ -69,7 +69,7 @@ const addItemToCart = (cart_id, product_id, quantity, res) => {
     });
 };
 
-// 🔹 Kosár ellenőrzése
+// Kosár ellenőrzése
 const checkCart = (req, res) => {
     const user_id = req.user.id;
 
@@ -93,7 +93,7 @@ const checkCart = (req, res) => {
     });
 };
 
-// 🔹 Termék eltávolítása a kosárból
+// Termék eltávolítása a kosárból
 const removeItemFromCart = (req, res) => {
     const { cart_item_id } = req.params;
 
@@ -119,4 +119,4 @@ const removeItemFromCart = (req, res) => {
 
 
 
-module.exports = { purchaseProduct, removeItemFromCart, checkCart };
+module.exports = { purchaseProduct, removeItemFromCart, checkCart, addToCart };
