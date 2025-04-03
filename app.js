@@ -49,6 +49,7 @@ app.use('/api/products', productsRoutes);
 app.use('/api/orders', orderRoutes);
 /*app.use('/api/order_items', orderItemsRoutes);*/
 app.use('/api/cart', cartRoutes);
+app.use('/api', cartRoutes);
 /*app.use('/api/cart-items', cartItemsRoutes);*/
 //app.use("/api/auth", forgotPasswordRoutes);  // Forgot password route
 //app.use("/api/auth", resetPasswordRoutes);   // Reset password route
