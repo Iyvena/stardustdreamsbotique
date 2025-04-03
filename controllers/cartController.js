@@ -8,7 +8,7 @@ const purchaseProduct = (req, res) => {
         return res.status(400).json({ error: 'Hiányzó adatok a vásárláshoz' });
     }
 
-    // 1️⃣ Ellenőrizzük, van-e már kosara a felhasználónak
+    // Kosár ellenőrzése és termék hozzáadása
     const checkCartSql = 'SELECT cart_id FROM cart WHERE user_id = ?';
     database.query(checkCartSql, [user_id], (err, cartResult) => {
         if (err) {
@@ -18,18 +18,15 @@ const purchaseProduct = (req, res) => {
 
         let cart_id;
         if (cartResult.length > 0) {
-            // Ha már van kosár, akkor használjuk annak ID-ját
             cart_id = cartResult[0].cart_id;
             addItemToCart(cart_id, product_id, quantity, res);
         } else {
-            // Ha nincs kosár, akkor létrehozzuk
             const insertCartSql = 'INSERT INTO cart (user_id) VALUES (?)';
             database.query(insertCartSql, [user_id], (err, result) => {
                 if (err) {
                     console.error('Hiba a kosár létrehozásakor:', err);
                     return res.status(500).json({ error: 'Hiba az SQL-ben', details: err });
                 }
-
                 cart_id = result.insertId;
                 addItemToCart(cart_id, product_id, quantity, res);
             });
