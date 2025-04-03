@@ -1,14 +1,14 @@
 const database = require('../models/database');
 //kosár kreálás
-const addToCart = (req, res) => {
-    const user_id = req.user.id; // A user ID a JWT tokenből jön
+const purchaseProduct = (req, res) => {
+    const user_id = req.user.id;
     const { product_id, quantity } = req.body;
 
     if (!product_id || !quantity) {
-        return res.status(400).json({ error: 'Hiányzó adatok a kosárhoz adásnál' });
+        return res.status(400).json({ error: 'Hiányzó adatok a vásárláshoz' });
     }
 
-    // 1️⃣ Ellenőrizzük, hogy van-e már kosara a felhasználónak
+    // 1️⃣ Ellenőrizzük, van-e már kosara a felhasználónak
     const checkCartSql = 'SELECT cart_id FROM cart WHERE user_id = ?';
     database.query(checkCartSql, [user_id], (err, cartResult) => {
         if (err) {
@@ -121,4 +121,5 @@ const removeItemFromCart = (req, res) => {
 
 
 
-module.exports = { addToCart, removeItemFromCart, checkCart };
+
+module.exports = { purchaseProduct, removeItemFromCart, checkCart };
