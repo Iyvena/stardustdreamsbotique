@@ -19,7 +19,7 @@ const purchaseProduct = (req, res) => {
         let cart_id;
         if (cartResult.length > 0) {
             cart_id = cartResult[0].cart_id;
-            addItemToCart(cart_id, product_id, quantity, res);
+            addToCart(cart_id, product_id, quantity, res); // Add item to cart
         } else {
             const insertCartSql = 'INSERT INTO cart (user_id) VALUES (?)';
             database.query(insertCartSql, [user_id], (err, result) => {
@@ -28,7 +28,7 @@ const purchaseProduct = (req, res) => {
                     return res.status(500).json({ error: 'Hiba az SQL-ben', details: err });
                 }
                 cart_id = result.insertId;
-                addItemToCart(cart_id, product_id, quantity, res);
+                addToCart(cart_id, product_id, quantity, res); // Add item to newly created cart
             });
         }
     });
