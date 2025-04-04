@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const checkoutController = require("../controllers/checkoutController");
+const { checkout } = require('../controllers/cartController');
 
 // Checkout végpont
-router.post("/checkout", checkoutController.processCheckout);
+router.post('/checkout', checkout)
 
 module.exports = router;
