@@ -33,9 +33,9 @@
 
 # Útvonalak:
 - URL Prefix:
-  - /api/auth
+      - /api/auth
 - Fájl:
-  - authRoutes.js
+      - authRoutes.js
 - Funkciók:
-  - Bejelentkezés, regisztráció 
+      - Bejelentkezés, regisztráció 
      
