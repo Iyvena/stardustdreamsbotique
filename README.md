@@ -13,3 +13,8 @@
 ---
 # Fő Csomagok
 
+2. Csomagok:
+   - express
+   - express
+   - cookie-parser
+   - path
