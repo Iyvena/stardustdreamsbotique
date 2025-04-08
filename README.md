@@ -127,4 +127,93 @@ VII. detectRole - Felhasználói Szerepkör Lekérdezése:
 - Funkció:
   - Visszaadja a bejelentkezett felhasználó szerepkörét (role), amelyet az JWT tartalmaz.
   - Használható, ha szükség van a felhasználó szerepkörének megismerésére.
+    
+ ---
+
+- cartController.js:
+  - ### **Függőségek:**
+    1. database: Az adatbázis elérését biztosító modul (models/database.js).
+    2. A req.user.id feltételezi, hogy a felhasználó már hitelesítve van és a JWT middleware betölti az azonosítót.
+   
+I. purchaseProduct – Termék hozzáadása a kosárhoz:
+- Funkció:
+  - Ellenőrzi, hogy van-e már kosár a felhasználónak.
+  - Ha igen, hozzáadja a terméket.
+  - Ha nincs, létrehoz egyet, majd hozzáadja a terméket.
+- Validálás:
+  - product_id és quantity megléte.
+- Válasz:
+  - Sikeres hozzáadás vagy mennyiségfrissítés: 200 / 201.
+  - Hibás adat vagy SQL hiba: 400 / 500.
+
+ II.  addToCart – Termék hozzáadása vagy mennyiség frissítése:
+ - Funkció:
+   -  Ha a termék már a kosárban van, növeli a mennyiséget.
+   -  Ha nincs, beszúrja új tételként.
+-  Bemenet:
+  -  cart_id, product_id, quantity – függvényparaméterként.
+-  Válasz:
+  -  Frissítés: 200.
+  -  Új hozzáadás: 201.
+  -  SQL hiba esetén: 500.
+
+III. checkCart – Kosár tartalmának lekérdezése:
+- Funkció:
+  - Visszaadja a felhasználó kosarában lévő termékek listáját, azok részleteivel és összesített árakkal.
+  - Kimenet (példa struktúra):
+    ```
+    {
+        "cart_id": 19,
+        "product_id": 5,
+        "product_name": "Genshin Impact costume Tighnari",
+        "price": "71.99",
+        "type_id": 1,
+        "chategory_id": 2,
+        "description": "Genshin Impact, costume, Tighnari full cosplay with dress, wigs and props",
+        "quantity": 2,
+        "total_price": "143.98"
+    }
+    ```
+- Válasz:
+  - Siker: 200.
+  - Hiba: 500.
+
+ IV. removeItemFromCart – Termék eltávolítása a kosárból
+ - Funkció:
+   -  Törli az adott terméket a felhasználó kosarából.
+-  Bemenet:
+  - product_id a req.params-ban.
+- Válasz:
+  - Siker: 200.
+  - Nem található: 404.
+  - Hiányzó adat vagy SQL hiba: 400 / 500.
+ 
+V. updateQuantity – Mennyiség frissítése:
+- Funkció:
+  - Módosítja egy kosárban lévő termék mennyiségét.
+- Bemenet:
+  - product_id, quantity a req.body-ban.
+-  Validálás:
+  -  Meglévő termék ellenőrzése a kosárban.
+-  Válasz:
+  -  Sikeres frissítés: 200.
+  -  Nincs ilyen termék: 404.
+  -  Hiányzó adat vagy SQL hiba: 400 / 500.
+
+VI.  checkout – Vásárlás (fizetés) és kosár ürítése:
+- Funkció:
+  - Lekérdezi a kosarat.
+  - Szimulált fizetés (loggolás formájában).
+  - Kiüríti a kosarat.
+  - Visszaküldi a megvásárolt termékek listáját.
+- Bemenet:
+  - email, card_token, shipping_address a req.body-ban.
+- Validálás:
+  - Minden mező megléte.
+  - Kosár nem lehet üres.
+- Válasz:
+  - Siker: 200 (termékek listájával).
+  - Hiányzó adatok vagy üres kosár: 400.
+  - SQL hiba: 500.
+    
 </details>
