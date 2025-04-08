@@ -17,8 +17,13 @@
    - express
       - express.json() – JSON kérések kezelése
    - cookie-parser
+       - cookieParser() – Cookie-k kezelése
    - path
-
+       - cors() – Engedélyezi a frontend hozzáférését
+    - limiter
+        -  limiter (kommentelve) – Rate limiting middleware
+     -   authenticateToken
+         - authenticateToken – JWT alapú autentikáció   
 ---
 
 # 
