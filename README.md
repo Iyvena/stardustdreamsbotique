@@ -10,3 +10,8 @@
 - Auth rendszer
 - Telepítés/használat
 ```
+---
+# Fő Csomagok
+```
+- Csomag           - Leírás
+### express        ### Szerver keretrendszer
