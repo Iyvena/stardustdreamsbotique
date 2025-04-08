@@ -15,6 +15,10 @@
 
 2. Csomagok:
    - express
-   - express
+      - express.json() – JSON kérések kezelése
    - cookie-parser
    - path
+
+---
+
+# 
