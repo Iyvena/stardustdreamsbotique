@@ -13,16 +13,16 @@
 ---
 # Fő Csomagok
 
-2. Csomagok:
-   - express
+2. Csomagok/Middleware-ek:
+   - express:
       - express.json() – JSON kérések kezelése
-   - cookie-parser
+   - cookie-parser:
        - cookieParser() – Cookie-k kezelése
-   - path
+   - path:
        - cors() – Engedélyezi a frontend hozzáférését
-    - limiter
+    - limiter:
         -  limiter (kommentelve) – Rate limiting middleware
-     -   authenticateToken
+     -   authenticateToken:
          - authenticateToken – JWT alapú autentikáció   
 ---
 
