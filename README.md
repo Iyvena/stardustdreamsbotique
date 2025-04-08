@@ -26,4 +26,9 @@
          - authenticateToken – JWT alapú autentikáció   
 ---
 
-# 
+# Statikus Fájlok:
+- /uploads mappa elérhető publikus úton
+
+---
+
+#
