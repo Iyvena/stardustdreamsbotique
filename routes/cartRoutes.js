@@ -6,7 +6,7 @@ const authenticateUser = require('../middleware/jwtAuth');
 // Kosár műveletek
 router.post('/add', authenticateUser, purchaseProduct);
 router.post('/cart/update-quantity', authenticateUser, updateQuantity);
-router.delete('/remove/:cart_item_id', authenticateUser, removeItemFromCart);
+router.delete('/remove/:product_id', authenticateUser, removeItemFromCart);
 router.get('/check-cart', authenticateUser, checkCart);
 router.post('/checkout', authenticateUser, checkout)
 

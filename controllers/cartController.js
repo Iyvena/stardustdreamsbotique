@@ -95,27 +95,33 @@ const checkCart = (req, res) => {
 
 // Termék eltávolítása a kosárból
 const removeItemFromCart = (req, res) => {
-    const { cart_item_id } = req.params;
+    const user_id = req.user.id;
+    const product_id = req.params.product_id;
 
-    if (!cart_item_id) {
-        return res.status(400).json({ error: "Hiányzó cart_item_id" });
+    if (!product_id) {
+        return res.status(400).json({ error: "Hiányzó product_id az URL-ben" });
     }
 
-    const deleteItemSql = 'DELETE FROM cart_items WHERE cart_item_id = ?';
-    database.query(deleteItemSql, [cart_item_id], (err, result) => {
+    const deleteItemSql = `
+        DELETE FROM cart_items 
+        WHERE product_id = ? AND cart_id IN (
+            SELECT cart_id FROM cart WHERE user_id = ?
+        )
+    `;
+
+    database.query(deleteItemSql, [product_id, user_id], (err, result) => {
         if (err) {
             console.error('Hiba a termék törlésekor:', err);
             return res.status(500).json({ error: 'Hiba az SQL-ben', details: err });
         }
 
         if (result.affectedRows === 0) {
-            return res.status(404).json({ error: 'A megadott cart_item_id nem található' });
+            return res.status(404).json({ error: 'A termék nem található a kosárban' });
         }
 
-        res.status(200).json({ message: 'A termék sikeresen eltávolítva a kosárból' });
+        return res.status(200).json({ message: 'A termék sikeresen eltávolítva a kosárból' });
     });
 };
-
 
 const updateQuantity = (req, res) => {
     const user_id = req.user.id;
