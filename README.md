@@ -33,8 +33,14 @@
 
 # Útvonalak:
 
-| URL Prefix   |     Fájl       | Funkciók |
-| :---         |     :---:      |                         ---:  |
-| /api/auth    | authRoutes.js  | Bejelentkezés, regisztráció   |
-| git diff     | git diff       | git diff                      |
+| URL Prefix   |     Fájl           | Funkciók |
+| :---         |     :---:          |                               ---:  |
+| /api/auth    | authRoutes.js      | Bejelentkezés, regisztráció         |
+| /api/profile | profileRoutes.js   | Profil szerkesztés, lekérdezés      |
+| /api/products| productsRoutes.js  | Termékek lekérdezése, kezelése      |
+| /api/likes   | likedRoutes.js     | Termékek kedvelése                  |
+| /api/orders  | orderRoutes.js     | Rendelések kezelése                 |
+| /api/cart    | cartRoutes.js      | Kosár műveletek                     |
+| /api         | searchRoutes.js    | Termék keresés                      |
+| /api/user    | profileRoutes.js   | Felhasználói adatok lekérdezése     |
      
