@@ -58,3 +58,17 @@
   3. jsonwebtoken: JWT token generálás és validálás.
   4. database: Az adatbázis kapcsolódása és SQL lekérdezések végrehajtása.
   5. JWT_SECRET: A környezeti változóból betöltött titkos kulcs a JWT aláírásához.
+
+I. register - Regisztráció:
+- Funkció:
+    - Regisztrálja az új felhasználót a rendszerben, ellenőrzi az email cím, felhasználónév és jelszó helyességét.
+    - A jelszó titkosítása (bcrypt) történik, mielőtt az adatbázisba kerülne.
+- Bemenet:
+    - email, username, password a kérés törzsében.
+- Validálás:
+    - Ellenőrzi, hogy az email cím érvényes-e.
+    - A felhasználónév nem üres.
+    - A jelszó legalább 8 karakter hosszú.
+- Válasz:
+    - Sikeres regisztráció: 201-es válasz státusz.
+    - Hibás bemenet: 400-as válasz státusz, részletes hibák.
