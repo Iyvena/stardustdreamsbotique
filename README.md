@@ -52,7 +52,7 @@
    - dotenvConfig.js
 - Controllers:
   - authController.js:
-    **Függőségek:
+    ** Függőségek:
   1. bcryptjs: Jelszavak titkosítása és ellenőrzése.
   2. validator: Felhasználói bemenetek validálása (pl. email, jelszó).
   3. jsonwebtoken: JWT token generálás és validálás.
