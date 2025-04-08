@@ -43,4 +43,18 @@
 | /api/cart    | cartRoutes.js      | Kosár műveletek                     |
 | /api         | searchRoutes.js    | Termék keresés                      |
 | /api/user    | profileRoutes.js   | Felhasználói adatok lekérdezése     |
-     
+
+---
+
+# Backend adatok:
+
+ - config:
+   - dotenvConfig.js
+- Controllers:
+  - authController.js:
+    ### Függőségek:
+  1. bcryptjs: Jelszavak titkosítása és ellenőrzése.
+  2. validator: Felhasználói bemenetek validálása (pl. email, jelszó).
+  3. jsonwebtoken: JWT token generálás és validálás.
+  4. database: Az adatbázis kapcsolódása és SQL lekérdezések végrehajtása.
+  5. JWT_SECRET: A környezeti változóból betöltött titkos kulcs a JWT aláírásához.
