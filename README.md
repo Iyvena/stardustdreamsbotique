@@ -54,7 +54,8 @@
 <details>
   
 <summary>Controllers:</summary>
-  - authController.js:
+
+- authController.js:
  - ### **Függőségek:**
   1. bcryptjs: Jelszavak titkosítása és ellenőrzése.
   2. validator: Felhasználói bemenetek validálása (pl. email, jelszó).
