@@ -154,8 +154,14 @@ const updateQuantity = (req, res) => {
 
 const checkout = (req, res) => {
     const user_id = req.user.id;
+    const { email, card_token, shipping_address } = req.body;
 
-    // Lekérdezzük a kosár tartalmát a vásárlás előtt
+    // Validáció
+    if (!email || !card_token || !shipping_address) {
+        return res.status(400).json({ error: 'Hiányzó adatok a vásárláshoz (email, bankkártya, cím)' });
+    }
+
+    // Lekérdezzük a kosár tartalmát
     const getCartSql = `
         SELECT cart_items.cart_id, cart_items.product_id, products.product_name, cart_items.quantity, products.price,
                (cart_items.quantity * products.price) AS total_price
@@ -175,7 +181,13 @@ const checkout = (req, res) => {
             return res.status(400).json({ error: "A kosár üres!" });
         }
 
-        // Kosár kiürítése a vásárlás után
+        // Simulált fizetés – itt történne a fizetés hitelesítése pl. Stripe-pal
+        console.log("Fizetés feldolgozása...");
+        console.log("Email:", email);
+        console.log("Kártya token:", card_token);
+        console.log("Szállítási cím:", shipping_address);
+
+        // Ha fizetés sikeres, töröljük a kosarat
         const clearCartSql = `DELETE FROM cart_items WHERE cart_id IN (SELECT cart_id FROM cart WHERE user_id = ?)`;
         database.query(clearCartSql, [user_id], (deleteErr) => {
             if (deleteErr) {
@@ -183,7 +195,7 @@ const checkout = (req, res) => {
                 return res.status(500).json({ error: "Nem sikerült törölni a kosár tartalmát.", details: deleteErr });
             }
 
-            // Visszaküldjük a vásárolt termékek listáját
+            // Visszaküldjük a vásárolt termékeket
             const purchasedItems = result.map(item => ({
                 product_name: item.product_name,
                 quantity: item.quantity,
@@ -192,6 +204,8 @@ const checkout = (req, res) => {
 
             return res.status(200).json({
                 message: "Sikeres vásárlás!",
+                user_email: email,
+                shipping_address,
                 products: purchasedItems
             });
         });
