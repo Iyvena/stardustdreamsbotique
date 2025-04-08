@@ -50,7 +50,10 @@
 
  - config:
    - dotenvConfig.js
-- Controllers:
+
+<details>
+  
+<summary>Controllers:</summary>
   - authController.js:
  - ### **Függőségek:**
   1. bcryptjs: Jelszavak titkosítása és ellenőrzése.
@@ -123,3 +126,4 @@ VII. detectRole - Felhasználói Szerepkör Lekérdezése:
 - Funkció:
   - Visszaadja a bejelentkezett felhasználó szerepkörét (role), amelyet az JWT tartalmaz.
   - Használható, ha szükség van a felhasználó szerepkörének megismerésére.
+</details>
