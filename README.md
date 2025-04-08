@@ -32,10 +32,9 @@
 ---
 
 # Útvonalak:
-- URL Prefix:
-  1. /api/auth
-- Fájl:
-  1. authRoutes.js
-- Funkciók:
-  1. Bejelentkezés, regisztráció 
+
+| URL Prefix   |     Fájl       | Funkciók |
+| :---         |     :---:      |                         ---:  |
+| /api/auth    | authRoutes.js  | Bejelentkezés, regisztráció   |
+| git diff     | git diff       | git diff                      |
      
