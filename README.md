@@ -215,5 +215,65 @@ VI.  checkout – Vásárlás (fizetés) és kosár ürítése:
   - Siker: 200 (termékek listájával).
   - Hiányzó adatok vagy üres kosár: 400.
   - SQL hiba: 500.
-    
+
+- ❤️ likeController.js – Kedvencek kezelése:
+  - ### **Függőségek:**
+    1.  database: az SQL adatbázis kapcsolatot biztosító modul.
+    2.  Feltételezi, hogy req.user.id tartalmazza az azonosított felhasználó ID-ját (JWT middleware használatával).
+   
+I. likeProduct(req, res) – Termék kedvencekhez adása / eltávolítása:
+- Funkció:
+  - Ha a termék már kedvenc, eltávolítja (unlike).
+  - Ha még nem az, akkor hozzáadja a kedvencekhez (like).
+- Bemenet:
+  - product_id: req.params-ból.
+  - user_id: az azonosított felhasználótól (req.user.id).
+- Lépések:
+  1. Ellenőrzi, hogy a felhasználó már kedvencek közé tette-e a terméket.
+  2.  Ha igen → DELETE.
+  3.  Ha nem → INSERT.
+- Válaszok:
+  -  Sikeres hozzáadás: 200 OK + "liked".
+  -  Sikeres eltávolítás: 200 OK + "unliked".
+  -   Hiányzó ID: 400.
+  -   SQL hiba: 500.
+ 
+II. unlikeProduct(req, res) – Egy termék külön törlése a kedvencekből:
+- Ez hasonló a likeProduct funkció "unlike" ágához, de külön route-on hívható.
+- Bemenet:
+  - product_id (params), user_id (req.user.id).
+- Lépések:
+  - Egyértelmű törlés DELETE SQL-lel.
+- Válaszok:
+  - Sikeres törlés: 200 OK.
+  - Nem található: 404.
+  - SQL hiba: 500.
+ 
+III. checkLike(req, res) – Kedvencek lekérdezése:
+- Funkció:
+  - Visszaadja a felhasználó kedvenc termékeit, egyesítve a products táblával.
+-  Bemenet:
+  -  user_id (req.user.id).
+-  SQL művelet:
+  -  JOIN a products és likes táblán, user_id alapján.
+-  Válasz:
+  -   Siker: 200 OK, a kedvenc termékek listája.
+  -   SQL hiba: 500.
+- Példa válasz:
+ 
+   ```
+    {
+        "product_id": 5,
+        "product_name": "Genshin Impact costume Tighnari",
+        "price": "71.99",
+        "product": "Tighnari_costume.jpeg",
+        "type_id": 1,
+        "chategory_id": 2,
+        "user_id": 19,
+        "description": "Genshin Impact, costume, Tighnari full cosplay with dress, wigs and props"
+    }
+```
+```
+
+
 </details>
