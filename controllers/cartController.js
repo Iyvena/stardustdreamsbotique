@@ -133,7 +133,7 @@ const updateQuantity = (req, res) => {
 
     // Ellenőrizzük, hogy van-e ilyen termék a kosárban
     const checkItemSql = 'SELECT * FROM cart_items WHERE cart_id IN (SELECT cart_id FROM cart WHERE user_id = ?) AND product_id = ?';
-    
+
     database.query(checkItemSql, [user_id, product_id], (err, result) => {
         if (err) {
             console.error('Hiba a termék ellenőrzésekor:', err);
@@ -146,7 +146,7 @@ const updateQuantity = (req, res) => {
 
         // Mennyiség frissítése
         const updateQuantitySql = 'UPDATE cart_items SET quantity = ? WHERE cart_id IN (SELECT cart_id FROM cart WHERE user_id = ?) AND product_id = ?';
-        
+
         database.query(updateQuantitySql, [quantity, user_id, product_id], (err) => {
             if (err) {
                 console.error('Hiba a mennyiség frissítésekor:', err);
@@ -228,13 +228,16 @@ deleteCartItem = (req, res) => {
     database.query(sql, [product_id], (err, result) => {
         if (err) {
             console.log('Hiba egy bizonyos termék összes mennyiségének törlésekor.', err);
-            return res.status(500).json({ error: 'Nem sikerült a törlés!', err});
+            return res.status(500).json({ error: 'Nem sikerült a törlés!', err });
         }
-        console.log(`'DELETE FROM cart_items WHERE cart_item_id = ?' eredménye: ${result}`);
+        console.log('DELETE FROM cart_items WHERE cart_item_id = ? eredménye: ');
+        console.log(result);
         
         return res.status(204).send();
     });
-    
+
 };
+    
+
 
 module.exports = { purchaseProduct, removeItemFromCart, checkCart, addToCart, updateQuantity, checkout, deleteCartItem };
