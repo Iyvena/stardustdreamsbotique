@@ -274,6 +274,70 @@ III. checkLike(req, res) – Kedvencek lekérdezése:
     }
 ```
 ```
-
-
+- ✅ productsController.js:
+  - ### **Függőségek:**
+    - database: Az adatbázis-műveleteket végző modul (models/database.js)
+    - fs: Fájlrendszer modul, a képek törléséhez
+    - req.user.id: Feltételezi, hogy a felhasználó már hitelesítve van, a JWT middleware által
+      
+  - I. getALLproduct – Összes termék lekérdezése
+    - Funkció:
+      - Lekérdezi az adatbázisból az összes terméket.
+    - Bemenet:
+      - req.user_id: A bejelentkezett felhasználó azonosítója (bár jelenleg nincs ténylegesen használva a lekérdezésben)
+    - Válasz:
+      - Sikeres lekérdezés esetén: 200 – Termékek listája
+      -  Nincs találat: 404
+      -  SQL hiba: 500
+  - II.   uploadProduct – Új termék feltöltése
+    - Funkció:
+      - Új termék beszúrása az adatbázisba.
+      - Kép feltöltésének és termékadatok meglétének validálása.
+    -  Bemenet:
+      -  product_name, description, price, type_id, category_name – a req.body-ból
+      -  req.file – a feltöltött kép
+    -  Validálás:
+       - Minden szükséges mező megléte ellenőrzésre kerül.
+    -  Válasz:
+      -  Sikeres feltöltés: 201 (termék ID-val)
+      -  Hiányos adatok: 400
+      -  SQL hiba: 500
+   
+    III. filterProducts – Termékek szűrése kategória vagy típus alapján
+    - Funkció:
+      - Lekérdezi a termékeket a megadott chategory_id és/vagy type_id alapján.
+    - Bemenet:
+       - chategory_id, type_id – a req.query-ből
+    - Válasz:
+      - Találatok: 200
+      - Nincs találat: 404
+      - SQL hiba: 500
+     
+    IV. deleteProduct – Termék törlése
+    - Funkció:
+     - Lekérdezi a termékhez tartozó fájlnevet, és törli azt a szerverről.
+     - Ezután törli a terméket az adatbázisból.
+    - Bemenet:
+       - product_id – a req.params-ból
+    - Válasz:
+      - Sikeres törlés: 200
+      - Hiányzó product_id: 400
+      - Nem található termék: 404
+      - SQL hiba: 500
+     
+    V.  updateProduct – Termék adatainak frissítése
+    - Funkció:
+       - Részleges frissítést végez az adott terméken (csak a megadott mezőket módosítja).
+       - Ha kép is érkezik, frissíti a fájlnevet is.
+    - Bemenet:
+       - product_id – a req.params-ból
+       - product_name, description, price, type_id, chategory_id – a req.body-ból
+       - req.file – új kép (opcionális)
+    - Validálás:
+       - Legalább egy mező megadása kötelező a frissítéshez.
+    - Válasz:
+        - Sikeres frissítés: 200
+        - Nem található vagy nincs jogosultság: 404
+        - Hiányzó adatok: 400
+        - SQL hiba: 500
 </details>
