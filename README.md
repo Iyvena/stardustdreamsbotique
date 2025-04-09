@@ -473,8 +473,4 @@ III. checkLike(req, res) – Kedvencek lekérdezése:
                    - Válasz:
                      - 200 – A termékek listája visszaadva a válaszban.
                      - 500 – Ha SQL hiba történik a lekérdezés során, egy hibajelzést küldünk: Adatbázis hiba.
-
-
-
-
 </details>
