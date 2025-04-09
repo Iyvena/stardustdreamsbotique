@@ -223,14 +223,14 @@ deleteCartItem = (req, res) => {
     const { product_id } = req.params;
     console.log(product_id);
 
-    const sql = 'DELETE FROM cart_items WHERE cart_item_id = ?';
+    const sql = 'DELETE FROM cart_items WHERE product_id = ?';
 
     database.query(sql, [product_id], (err, result) => {
         if (err) {
             console.log('Hiba egy bizonyos termék összes mennyiségének törlésekor.', err);
             return res.status(500).json({ error: 'Nem sikerült a törlés!', err });
         }
-        console.log('DELETE FROM cart_items WHERE cart_item_id = ? eredménye: ');
+        console.log('DELETE FROM cart_items WHERE product_id = ? eredménye: ');
         console.log(result);
         
         return res.status(204).send();
