@@ -479,6 +479,7 @@ III. checkLike(req, res) – Kedvencek lekérdezése:
 
 <details>
 <summary>Middleware</summary>
+  
   - authenticateToken & authenticateUser – Middleware a felhasználó hitelesítéséhez
     - ### **Függőségek:**
       - jsonwebtoken (jwt): A JSON Web Token (JWT) kezelésére használt könyvtár.
@@ -514,4 +515,37 @@ I. authenticateToken – Middleware a token ellenőrzésére
 - Válasz:
   - Sikeres hitelesítés: Ha a token érvényes, a felhasználói adatokat (dekódolt token) hozzáadja a req.user objektumhoz, majd a next() metódust hívja, hogy a következő middleware-t vagy route handler-t lefuttathassa.
   - Hiba: Ha a token nem található vagy érvénytelen, hibát küld vissza a válaszban.
+
+---
+ 
+ - upload – Fájlok feltöltése (Multer middleware)
+ - ### **Függőségek:**
+   - multer: A fájlok feltöltésére használt middleware az Express.js alkalmazások számára.
+   - fs: A fájlrendszer kezelésére használt modul.
+   - path: A fájlok elérési útvonalának kezelésére használt modul.
+  
+  - Funkció:
+    -  A upload middleware lehetővé teszi a fájlok (képformátumok) feltöltését az Express.js alkalmazásba. A feltöltéshez szükséges beállítások közé tartozik a fájlok méretének korlátozása, a fájl típusának ellenőrzése, valamint a fájlok elnevezése és tárolása a szerveren.
+  I. Funkcionalitás:
+  - destination:
+    - A fájlokat az uploads/ mappába tárolja.
+    - Ha a mappa nem létezik, a middleware automatikusan létrehozza azt a fs.existsSync() és fs.mkdirSync() segítségével.
+  - filename:
+    - A fájl nevét a következő formátumban generálja: <felhasználói_azonosító>-<dátum>-<eredeti_fájlnév>.
+    - A dátum ISO 8601 formátumban van, például: 2025-04-09.
+    - A fájlok így egyediek lesznek, és nem ütköznek egymással, mivel tartalmazzák a felhasználó azonosítóját és a feltöltés dátumát.
+
+II. Upload (Feltöltési beállítások):
+- fileSize limit: A feltöltött fájl maximális mérete 10MB, amit a limits beállításban adunk meg. Ha egy fájl meghaladja ezt a méretet, akkor a rendszer elutasítja a feltöltést.
+- fileFilter: A fájl típusát ellenőrizzük a filetypes változó segítségével. A megengedett formátumok:
+- **.jpeg, .jpg, .png, .gif, .webp, .avif.**
+- Ha a fájl kiterjesztése vagy MIME típusa nem egyezik a megadott típusokkal, akkor hibaüzenetet küldünk vissza a következővel: Csak képformátumban lehet feltölteni a jelmezeket.
+
+- Válasz:
+  -  Sikeres feltöltés: A fájl sikeresen feltöltődik a szerverre, és a válaszban a feltöltött fájl elérési útja (vagy más információ) kerül visszaküldésre, ha szükséges.
+  -  Hiba: Fájl túl nagy (ha a fájl meghaladja a 10MB-ot)
+
+---
+
+
 </details>
