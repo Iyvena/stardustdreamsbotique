@@ -577,3 +577,12 @@ II. Upload (Feltöltési beállítások):
   
 </details>
 
+---
+
+<details>
+
+<summary>Routes</summary>
+
+- 
+
+</details>
