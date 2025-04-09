@@ -544,8 +544,36 @@ II. Upload (Feltöltési beállítások):
 - Válasz:
   -  Sikeres feltöltés: A fájl sikeresen feltöltődik a szerverre, és a válaszban a feltöltött fájl elérési útja (vagy más információ) kerül visszaküldésre, ha szükséges.
   -  Hiba: Fájl túl nagy (ha a fájl meghaladja a 10MB-ot)
+    
+</details>
 
 ---
 
+<details>
+<summary>Models</summary>
 
+- database.js – Adatbázis kapcsolat létrehozása
+ - ### **Függőségek:**
+   - mysql2: MySQL adatbázishoz való csatlakozást biztosító Node.js könyvtár.
+   - dotenvConfig: Konfigurációs fájl, amely környezeti változókból olvassa be az adatbázis elérési adatokat.
+- Funkció:
+  - Ez a modul létrehoz egy MySQL connection pool-t a mysql2 csomag segítségével, amelyet az alkalmazás használ az adatbázis-műveletekhez. A pool lehetővé teszi, hogy több lekérdezés fusson párhuzamosan hatékonyan és biztonságosan.
+
+- Beállítások:
+  1. host: Az adatbázis szerver hosztja (DB_HOST).
+  2. port: Az adatbázis szerver portja (DB_PORT).
+  3. user: Felhasználónév az adatbázishoz (DB_USER).
+  4. password: A felhasználó jelszava (DB_PASSWORD).
+  5. database: Az adatbázis neve, amelyhez csatlakozni szeretnénk (DB_DATABASE).
+  6. timezone: Az időzóna 'Z', azaz UTC.
+  7. waitForConnections: Ha igaz, akkor a kliens várakozik, ha nincs szabad kapcsolat.
+  8. connectionLimit: A poolban engedélyezett maximális kapcsolatok száma (10).
+  9. queueLimit: A várakozási sor maximális hossza. 0 esetén nincs limit.
+
+- Funkcionalitás:
+  -  MySQL Connection Pool: Egy connection pool használatával az alkalmazás teljesítménye jelentősen javul, mivel nem kell minden lekérdezéshez új kapcsolatot létrehozni.
+  -  Biztonság: A kapcsolati adatok .env fájlból történő beolvasásával a szenzitív információk nincsenek közvetlenül a kódban.
+ 
+  
 </details>
+
