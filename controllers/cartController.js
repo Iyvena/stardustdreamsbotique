@@ -76,7 +76,7 @@ const checkCart = (req, res) => {
     const sql = `
         SELECT cart_items.cart_id, cart_items.product_id, products.product_name, products.price, 
                products.type_id, products.chategory_id, products.description,
-               cart_items.quantity, (cart_items.quantity * products.price) AS total_price
+               cart_items.quantity, (cart_items.quantity * products.price) AS total_price, products.product
         FROM cart_items
         JOIN cart ON cart_items.cart_id = cart.cart_id
         JOIN products ON cart_items.product_id = products.product_id
