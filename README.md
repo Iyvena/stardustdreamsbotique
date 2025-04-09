@@ -215,6 +215,8 @@ VI.  checkout – Vásárlás (fizetés) és kosár ürítése:
   - Siker: 200 (termékek listájával).
   - Hiányzó adatok vagy üres kosár: 400.
   - SQL hiba: 500.
+ 
+  ---
 
 - ❤️ likeController.js – Kedvencek kezelése:
   - ### **Függőségek:**
@@ -274,6 +276,8 @@ III. checkLike(req, res) – Kedvencek lekérdezése:
     }
 ```
 ```
+---
+
 - ✅ productsController.js:
   - ### **Függőségek:**
     - database: Az adatbázis-műveleteket végző modul (models/database.js)
@@ -340,4 +344,137 @@ III. checkLike(req, res) – Kedvencek lekérdezése:
         - Nem található vagy nincs jogosultság: 404
         - Hiányzó adatok: 400
         - SQL hiba: 500
+     
+    ---
+    - updateProductDescription.js - Funkcionalitás és Leírás:
+      - ### **Függőségek:**
+        - database: Az adatbázis-műveleteket végző modul (models/database.js)
+       
+    I.  updateProductDescription – Termék leírásának frissítése:
+    - Funkció:
+       - Frissíti a megadott termék leírását.
+    - Bemenet:
+       - product_id: A termék azonosítója (a req.body-ból)
+       - description: Az új leírás (a req.body-ból)
+    - Validálás:
+       - Ellenőrzi, hogy mind a product_id, mind a description mezők szerepelnek-e a kérésben.
+    - Válasz:
+      - Sikeres frissítés: 200 – A termék leírása sikeresen frissítve.
+      - Hiányzó adat: 400 – A product_id vagy a description hiányzik.
+      - A termék nem található: 404 – Nincs olyan termék, amely megfelelne a megadott product_id-nak.
+      - SQL hiba: 500 – Belső hibák az adatbázis műveletek során.
+     
+      ---
+
+      - profileController.js – Funkcionalitás és Leírás
+         - ### **Függőségek:**
+           - database: Az adatbázis-műveleteket végző modul (models/database.js)
+           - bcryptjs: A jelszó titkosításához szükséges könyvtár
+          
+        I. editProfileName – Felhasználói név frissítése:
+          - Funkció:
+             - Frissíti a felhasználó nevét.
+          - Bemenet:
+             - username: A felhasználó új neve (a req.body-ból)
+          - Validálás:
+             - Ellenőrzi, hogy a username mező nem üres és nem csak szóköz.
+          - Válasz:
+            - Sikeres frissítés: 200 – A felhasználó neve sikeresen frissítve.
+            - Hiányzó adat: 400 – A név nem lehet üres.
+            - Felhasználó nem található: 404 – A felhasználó nem található az adatbázisban.
+            - SQL hiba: 500 – Belső hiba.
+           
+          II.  editProfilePassword – Felhasználói jelszó frissítése
+            - Funkció:
+               - Frissíti a felhasználó jelszavát.
+            - Bemenet:
+               - password: Az új jelszó (a req.body-ból)
+            - Validálás:
+               - Ellenőrzi, hogy a jelszó legalább 8 karakter hosszú-e.
+            - Válasz:
+              -  Sikeres frissítés: 200 – A jelszó sikeresen frissítve.
+              -  Helytelen jelszó: 400 – A jelszónak legalább 8 karakter hosszúnak kell lennie.
+              -  SQL hiba: 500 – Belső hiba.
+             
+        III. editProfileAdress – Felhasználói cím frissítése
+        - Funkció:
+           - Frissíti a felhasználó címét.
+        - Bemenet:
+           - address: Az új cím (a req.body-ból)
+        - Validálás:
+           - Ellenőrzi, hogy a cím nem üres.
+        - Válasz:
+          - Sikeres frissítés: 200 – A cím sikeresen frissítve.
+          - Hiányzó adat: 400 – A cím nem lehet üres.
+          - Felhasználó nem található: 404 – A felhasználó nem található.
+          - SQL hiba: 500 – Belső hiba.
+         
+        IV. editProfilePic – Profilkép frissítése
+        - Funkció:
+           - Frissíti a felhasználó profilképét.
+        - Bemenet:
+           - profile_pic: Az új profilkép fájl neve (a fájl feltöltése után)
+        - Válasz:
+           - Sikeres frissítés: 200 – A profilkép sikeresen frissítve.
+           - SQL hiba: 500 – Belső hiba.
+         
+          V. getProfilePic – Profilkép lekérdezése
+          - Funkció:
+             - Visszaadja a felhasználó profilképének fájlnevét.
+          - Bemenet:
+             - user_id: A felhasználó azonosítója (a req.user.id-ból)
+          - Válasz:
+            - Sikeres lekérdezés: 200 – A profilkép fájl neve.
+            -  Felhasználó nem található: 404 – A felhasználó nem található.
+           
+          VI. getUsername – Felhasználói név lekérdezése
+          - Funkció:
+             - Visszaadja a felhasználó nevét.
+          - Bemenet:
+             - user_id: A felhasználó azonosítója (a req.user.id-ból)
+          - Válasz:
+            - Sikeres lekérdezés: 200 – A felhasználó neve.
+            - Felhasználó nem található: 404 – A felhasználó nem található.
+           
+          VII. getAddress – Felhasználói cím lekérdezése
+          - Funkció:
+             - Visszaadja a felhasználó címét.
+          - Bemenet:
+             - user_id: A felhasználó azonosítója (a req.user.id-ból)
+          - Válasz:
+              - Sikeres lekérdezés: 200 – A felhasználó címe.
+              - Felhasználó nem található: 404 – A felhasználó nem található.
+           
+            ---
+
+            - searchProductscontroller.js – Termékek keresése
+             - Funkció:
+               - A funkció lehetővé teszi, hogy termékeket keressünk az adatbázisban a felhasználó által megadott kifejezés alapján. Ha nincs keresési kifejezés, akkor az összes terméket lekéri.
+             - Bemenet:
+               - search: A keresési kifejezés, amely a req.params.search-ból érkezik. Ha nincs megadva kifejezés, alapértelmezés szerint üres stringként kezeljük.
+            - Validálás:
+                - A keresési kifejezés (search) szóközökkel körülvett vagy üres stringként érkezhet. A kód az trim() metódust alkalmazza, hogy eltávolítsa a fölösleges szóközöket.
+            - Funkcionalitás:
+              1. Üres keresési kifejezés:
+                 - Ha a keresési kifejezés üres, az összes terméket lekérjük az adatbázisból.
+                 - Az SQL lekérdezés
+                   ```
+                   SELECT * FROM products
+                   ```
+                2. Nem üres keresési kifejezés:
+                   - Ha van keresési kifejezés, a LIKE operátort használjuk az adatbázisban való kereséshez.
+                   - A keresési kifejezés a termékek product_name, description, és price mezőiben kerül keresésre.
+                   - Az SQL lekérdezés:
+                     ```
+                     SELECT * FROM products WHERE product_name LIKE ? OR description LIKE ? OR price LIKE ?
+                     ```
+                     - A keresési kifejezés minden esetben % karakterekkel lesz körülvéve, hogy a találatok részleges egyezést is figyelembe vegyenek.
+                    
+                   - Válasz:
+                     - 200 – A termékek listája visszaadva a válaszban.
+                     - 500 – Ha SQL hiba történik a lekérdezés során, egy hibajelzést küldünk: Adatbázis hiba.
+
+
+
+
 </details>
