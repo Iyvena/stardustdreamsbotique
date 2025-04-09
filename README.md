@@ -474,3 +474,42 @@ III. checkLike(req, res) – Kedvencek lekérdezése:
                      - 200 – A termékek listája visszaadva a válaszban.
                      - 500 – Ha SQL hiba történik a lekérdezés során, egy hibajelzést küldünk: Adatbázis hiba.
 </details>
+---
+<details>
+<summary>Middleware</summary>
+  - authenticateToken & authenticateUser – Middleware a felhasználó hitelesítéséhez
+    - ### **Függőségek:**
+      - jsonwebtoken (jwt): A JSON Web Token (JWT) kezelésére használt könyvtár.
+      - database: Az adatbázis-műveleteket végző modul (models/database.js).
+      - dotenvConfig: A környezeti változókat tartalmazó konfigurációs fájl (JWT_SECRET).
+
+I. authenticateToken – Middleware a token ellenőrzésére
+- Funkció:
+  -  A middleware ellenőrzi, hogy a kérés tartalmazza-e az érvényes JWT tokent a cookies.auth_token-ban. Ha igen, a token érvényességét ellenőrzi, és a felhasználói adatokat hozzáadja a req.user objektumhoz. Ha nem érvényes a token vagy nincs token, akkor hibát jelez.
+- Bemenet:
+  - cookie: A kérés tartalmazza a auth_token nevű cookie-t, amely a felhasználó JWT tokenjét tartalmazza.
+- Funkcionalitás:
+  - Token keresése: A middleware megpróbálja megtalálni a auth_token-t a kérés cookie-jában.
+  - Token validálás: A jwt.verify metódus segítségével érvényesíti a tokent a JWT_SECRET kulcs használatával.
+-   Hibák:
+  - Ha a token nincs a kérésben, akkor 403-as státuszkóddal hibaüzenet érkezik: Nincs bejelentkezett felhasználó.
+  - Ha a token érvénytelen, akkor 403-as státuszkóddal hibaüzenet érkezik: A token érvénytelen.
+ - Válasz:
+   - Sikeres hitelesítés: Ha a token érvényes, a felhasználói adatokat (dekódolt token) hozzáadja a req.user objektumhoz, majd a next() metódust hívja, hogy a következő middleware-t vagy route handler-t lefuttathassa.
+   - Hiba: Ha a token nem található vagy érvénytelen, hibát küld vissza a válaszban.
+  
+  II. authenticateUser – Middleware a felhasználó hitelesítéséhez Authorization Header segítségével
+  - Funkció:
+    - A middleware ellenőrzi, hogy a kérés tartalmazza-e a JWT tokent az Authorization header-ben, és az érvényességét is ellenőrzi. Ha a token érvényes, akkor a felhasználói adatokat hozzáadja a req.user objektumhoz, különben hibát jelez.
+- Bemenet:
+  -  Authorization Header: A kérésben található Authorization header, amely tartalmazza a token-t. A header formátuma: Bearer <token>.
+- Funkcionalitás:
+  - Token keresése: A middleware megpróbálja kinyerni a JWT tokent a Authorization header-ből.
+  - Token validálás: A jwt.verify metódus segítségével érvényesíti a tokent a .env fájlban tárolt JWT_SECRET kulcs használatával.
+  - Hibák:
+    - Ha nincs token a header-ben, akkor 401-es státuszkóddal hibaüzenet érkezik: Nincs token, hozzáférés megtagadva.
+    - Ha a token érvénytelen, akkor 401-es státuszkóddal hibaüzenet érkezik: Érvénytelen token.
+- Válasz:
+  - Sikeres hitelesítés: Ha a token érvényes, a felhasználói adatokat (dekódolt token) hozzáadja a req.user objektumhoz, majd a next() metódust hívja, hogy a következő middleware-t vagy route handler-t lefuttathassa.
+  - Hiba: Ha a token nem található vagy érvénytelen, hibát küld vissza a válaszban.
+</details>
