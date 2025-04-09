@@ -230,7 +230,8 @@ deleteCartItem = (req, res) => {
             console.log('Hiba egy bizonyos termék összes mennyiségének törlésekor.', err);
             return res.status(500).json({ error: 'Nem sikerült a törlés!', err});
         }
-
+        console.log(`'DELETE FROM cart_items WHERE cart_item_id = ?' eredménye: ${result}`);
+        
         return res.status(204).send();
     });
     
