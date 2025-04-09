@@ -218,7 +218,22 @@ const checkout = (req, res) => {
     });
 };
 
+// egy termék eltávolítása a kosárból teljesen (mindegy milyen mennyiség van benne)
+deleteCartItem = (req, res) => {
+    const { product_id } = req.params;
+    console.log(product_id);
 
+    const sql = 'DELETE FROM cart_items WHERE cart_item_id = ?';
 
+    database.query(sql, [product_id], (err, result) => {
+        if (err) {
+            console.log('Hiba egy bizonyos termék összes mennyiségének törlésekor.', err);
+            return res.status(500).json({ error: 'Nem sikerült a törlés!', err});
+        }
 
-module.exports = { purchaseProduct, removeItemFromCart, checkCart, addToCart, updateQuantity, checkout };
+        return res.status(204).send();
+    });
+    
+};
+
+module.exports = { purchaseProduct, removeItemFromCart, checkCart, addToCart, updateQuantity, checkout, deleteCartItem };
