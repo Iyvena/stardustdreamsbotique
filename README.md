@@ -538,7 +538,7 @@ I. authenticateToken – Middleware a token ellenőrzésére
 II. Upload (Feltöltési beállítások):
 - fileSize limit: A feltöltött fájl maximális mérete 10MB, amit a limits beállításban adunk meg. Ha egy fájl meghaladja ezt a méretet, akkor a rendszer elutasítja a feltöltést.
 - fileFilter: A fájl típusát ellenőrizzük a filetypes változó segítségével. A megengedett formátumok:
-- _.jpeg, .jpg, .png, .gif, .webp, .avif._
+- _**.jpeg, .jpg, .png, .gif, .webp, .avif.**_
 - Ha a fájl kiterjesztése vagy MIME típusa nem egyezik a megadott típusokkal, akkor hibaüzenetet küldünk vissza a következővel: Csak képformátumban lehet feltölteni a jelmezeket.
 
 - Válasz:
