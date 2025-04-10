@@ -644,6 +644,69 @@ I. Útvonalak és Funkcionalitás:
 
 ---
 
+- cartRoutes.js – Kosár műveletek útvonalai
+   - ### **Függőségek:**
+     - express: Express.js router a HTTP-kérések kezeléséhez.
+     - jwtAuth: Middleware (authenticateUser) a felhasználó hitelesítéséhez JWT token alapján.
+     - cartController: A kosárhoz kapcsolódó logikákat tartalmazó controller függvények:
+       - purchaseProduct, checkCart, removeItemFromCart, updateQuantity, checkout, deleteCartItem.
+      
+I. Útvonalak és Funkcionalitás:
+
+  1. POST /add – Termék hozzáadása a kosárhoz
+     - Middleware: authenticateUser
+     - Controller: purchaseProduct
+     - Leírás: Hozzáad egy terméket az aktuális felhasználó kosarához.
+     - Bemenet: Termék adatai (pl. product_id, quantity) a req.body-ban.
+     - Válasz:
+       - Siker: 200 vagy 201
+       - Hiba: 400, 401, 500
+      
+  2. POST /cart/update-quantity – Kosárban lévő termék mennyiségének frissítése
+     - Middleware: authenticateUser
+     - Controller: updateQuantity
+     - Leírás: Módosítja egy termék mennyiségét a felhasználó kosarában.
+     - Bemenet: product_id, new_quantity a req.body-ban.
+     - Válasz:
+       - Siker: 200
+       - Hibás adat vagy jogosultság hiánya: 400, 401, 403
+      
+  3. DELETE /remove/:product_id – Termék eltávolítása a kosárból
+     - Middleware: authenticateUser
+     - Controller: removeItemFromCart
+     - Leírás: Törli a megadott product_id-val rendelkező terméket a kosárból.
+     - Válasz:
+       - Siker: 200
+       - Termék nem található: 404
+       - Hiba: 401, 500
+      
+  4. GET /check-cart – Kosár tartalmának lekérdezése
+     - Middleware: authenticateUser
+     - Controller: checkCart
+     - Leírás: Lekéri a bejelentkezett felhasználó kosarának tartalmát.
+     - Válasz:
+       - Siker: 200 – Kosár adatok tömbje
+       - Hiba: 401, 500
+      
+  5.  POST /checkout – Pénztár folyamat indítása
+     - Middleware: authenticateUser
+     - Controller: checkout
+     - Leírás: Lezárja a vásárlást, fizetési/feldolgozási művelet elindítása.
+     - Válasz:
+        - Siker: 200 vagy 201
+        - Hiba: 400, 401, 500
+    
+  6. DELETE /deleteCartItem/:product_id – Kosár elem törlése
+     - Middleware: authenticateUser
+     - Controller: deleteCartItem
+     - Megjegyzés: Úgy tűnik, ez funkcionálisan azonos a /remove/:product_id útvonallal. Ha nem különböznek érdemben, érdemes lehet összevonni őket.
+     - Válasz: Hasonló, mint a remove-nál.
+    
+  7. Exportálás:
+     - A router exportálva van, hogy beilleszthető legyen a fő alkalmazásba (pl. /cart útvonal prefixel).
+    
+---
+
 
       
 
