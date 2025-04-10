@@ -917,5 +917,27 @@ I. Útvonalak és Funkcionalitás:
 
 ---
 
+- searchRoutes.js – Termékek kereséséhez kapcsolódó útvonal
+  - ### **Függőségek:**
+     - express: Express Router használatához.
+     - searchController: A termékkereséssel kapcsolatos logikát tartalmazó modul.
+       - searchProducts: A termékek keresését megvalósító függvény.
+      
+I. Útvonal és Funkcionalitás:
+
+1. GET /products/:search? – Termékek keresése kulcsszó alapján
+   - Controller: searchProducts
+   - Leírás:
+      - Ha nincs megadott keresőkifejezés (:search), akkor az összes terméket visszaadja.
+      - Ha meg van adva keresőkifejezés, akkor a product_name, description, illetve price mezőkre szűr az SQL LIKE feltételével.
+   - Paraméter (opcionális):
+      - :search – Keresett kifejezés (pl. termék neve, leírása, ára)
+   - Válasz:
+      - Sikeres lekérdezés: 200 – A keresési feltételeknek megfelelő termékek listája.
+      - Hibák:
+        - 500 – Adatbázis hiba esetén hibaüzenetet küld vissza ("Adatbázis hiba")
+
+2. Exportálás:
+   - A router exportálva van, így a fő alkalmazásban hozzáadható egy /search prefix-szel.
 
 </details>
