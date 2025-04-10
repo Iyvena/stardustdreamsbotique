@@ -707,7 +707,141 @@ I. Útvonalak és Funkcionalitás:
     
 ---
 
-
+- likeRoutes.js – Kedvencek (Like) műveletek útvonalai
+     - ### **Függőségek:**
+       -  express: Express router a HTTP-kérések kezeléséhez.
+       -  jwtAuth: Middleware (authenticateToken) a felhasználó JWT-alapú hitelesítéséhez.
+       -  likeController: A kedvencekhez kapcsolódó logikát tartalmazó controller függvények:
+         - likeProduct, unlikeProduct, checkLike.
       
+I.  Útvonalak és Funkcionalitás:
+
+1.  POST /:product_id – Termék hozzáadása a kedvencekhez
+   - Middleware: authenticateToken
+   - Controller: likeProduct
+   - Leírás: Hozzáadja a megadott product_id-val rendelkező terméket a bejelentkezett felhasználó kedvenceihez.
+   - Bemenet:
+     - product_id: az útvonal paraméterből (req.params)
+  - Válasz:
+    - Siker: 201 – Termék hozzáadva a kedvencekhez
+    - Már létezik: 409 – A termék már szerepel a kedvencek között
+    - Hiba: 401, 500
+   
+2. GET /check – Kedvencek ellenőrzése
+   - Middleware: authenticateToken
+   - Controller: checkLike
+   - Leírás: Lekérdezi a felhasználó által kedvelt termékek listáját.
+   - Válasz:
+     - Siker: 200 – A felhasználó kedvenceinek listája
+     - Hiba: 401, 500
+    
+3. DELETE /likes/:product_id – Termék eltávolítása a kedvencek közül
+   - Middleware: authenticateToken
+   - Controller: unlikeProduct
+   - Leírás: Törli a megadott product_id-val rendelkező terméket a felhasználó kedvenceiből.
+   - Válasz:
+     - Siker: 200 – Termék eltávolítva
+     - Nem található: 404 – A termék nem volt kedvenc
+     - Hiba: 401, 500
+    
+4. Exportálás:
+   - A router exportálva van, hogy beilleszthető legyen a fő alkalmazásba (pl. /likes útvonal prefixel).
+
+---
+
+- productsDescriptionRoutes.js – Termékleírás frissítése
+  - ### **Függőségek:**
+    - express: Express router a HTTP-kérések kezeléséhez.
+    - productsDescriptionController: A termékek leírásának frissítéséért felelős controller, amely tartalmazza az updateProductDescription függvényt.
+   
+I. Útvonalak és Funkcionalitás:
+
+1. POST /update-description – Termék leírásának frissítése
+  - Controller: updateProductDescription
+  - Leírás: Frissíti egy adott termék leírását az adatbázisban.
+  - Bemenet (a req.body-ból):
+    -  product_id: A frissítendő termék azonosítója.
+    -  new_description: Az új leírás szövege.
+  -  Válasz:
+    -  Siker: 200 – A termékleírás sikeresen frissítve.
+    - Hiányzó vagy érvénytelen adat: 400 – Hibás vagy hiányzó bemeneti mezők.
+    - Nem található termék: 404 – A megadott termék nem létezik.
+    - Hiba: 500 – Belső szerverhiba adatbázis művelet során.
+
+2. Exportálás:
+   - A router exportálva van, hogy beilleszthető legyen a fő alkalmazásba (pl. /products útvonal prefixel).
+  
+---
+
+- productsRoutes.js – Termékekkel kapcsolatos útvonalak
+  - ### **Függőségek:**
+    - express: Express router a HTTP-kérések kezeléséhez.
+    - authenticateToken: Middleware a JWT-alapú hitelesítéshez.
+    - isAdmin: Middleware/controller függvény, ami ellenőrzi, hogy a bejelentkezett felhasználó admin-e.
+    - upload: A multer middleware képek feltöltéséhez.
+    - productsController: A termékekhez kapcsolódó műveleteket tartalmazó controller:
+      - getALLproduct, uploadProduct, filterProducts, deleteProduct, updateProduct.
+     
+I. Útvonalak és Funkcionalitás:
+
+1. GET /getALLproduct – Összes termék lekérdezése
+   - Controller: getALLproduct
+   - Leírás: Lekérdezi az adatbázisban lévő összes terméket.
+   - Válasz:
+     - Siker: 200 – Terméklista visszaadva.
+      - Hiba: 500 – Adatbázis hiba.
+    
+2. POST /uploadProduct – Új termék feltöltése (csak admin)
+   - Middlewares:
+      - authenticateToken: Bejelentkezés ellenőrzése.
+      - isAdmin: Jogosultság ellenőrzése (csak admin).
+      - upload.single('productImage'): Fájl feltöltése a productImage mezőből.
+   - Controller: uploadProduct
+   - Leírás: Új termék hozzáadása az adatbázishoz képfeltöltéssel együtt.
+   - Válasz:
+     - Siker: 201 – Termék sikeresen hozzáadva.
+     - Jogosultság hiány: 403 – Nem admin jogosultság.
+     - Hiba: 400, 500
+
+3. PUT /:id – Termék frissítése (csak admin)
+   - Middlewares:
+      - authenticateToken
+      - isAdmin
+      - upload.single('product')
+   - Controller: updateProduct
+   - Leírás: Egy meglévő termék adatainak módosítása.
+   - Bemenet:
+      - id: A frissítendő termék azonosítója (req.params.id)
+      - Képfájl és egyéb mezők a req.body-ból
+   - Válasz:
+      - Siker: 200 – Termék sikeresen frissítve.
+      - Nem található: 404 – Nincs ilyen termék.
+      - Jogosultság hiány: 403
+      - Hiba: 400, 500
+
+4. GET /filter – Termékek szűrése
+   - Controller: filterProducts
+   - Leírás: Termékek szűrése megadott kritériumok alapján (pl. kategória, ár stb.).
+   - Válasz:
+     - Siker: 200 – Szűrt terméklista visszaadva.
+     - Hiba: 400, 500
+    
+5. DELETE /:product_id – Termék törlése (csak admin)
+   - Middlewares:
+      - authenticateToken
+   - Controller: deleteProduct
+   - Leírás: Egy megadott azonosítójú termék törlése az adatbázisból.
+   - Bemenet:
+      - product_id: Az útvonal paraméterből (req.params)
+   - Válasz:
+      - Siker: 200 – Termék sikeresen törölve.
+      - Nem található: 404 – A termék nem létezik.
+      - Jogosultság hiány: 403
+      - Hiba: 500
+6. Exportálás:
+   - A router exportálva van, hogy beilleszthető legyen a fő alkalmazásba (pl. /products útvonal prefixel).
+
+---
+
 
 </details>
