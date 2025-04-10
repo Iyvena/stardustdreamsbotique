@@ -55,7 +55,7 @@
   
 <summary>Controllers:</summary>
 
-- authController.js:
+- 👤 authController.js:
  - ### **Függőségek:**
   1. bcryptjs: Jelszavak titkosítása és ellenőrzése.
   2. validator: Felhasználói bemenetek validálása (pl. email, jelszó).
@@ -130,7 +130,7 @@ VII. detectRole - Felhasználói Szerepkör Lekérdezése:
     
  ---
 
-- cartController.js:
+- 🛒 cartController.js:
   - ### **Függőségek:**
     1. database: Az adatbázis elérését biztosító modul (models/database.js).
     2. A req.user.id feltételezi, hogy a felhasználó már hitelesítve van és a JWT middleware betölti az azonosítót.
@@ -278,7 +278,7 @@ III. checkLike(req, res) – Kedvencek lekérdezése:
 ```
 ---
 
-- ✅ productsController.js:
+- 📦 productsController.js:
   - ### **Függőségek:**
     - database: Az adatbázis-műveleteket végző modul (models/database.js)
     - fs: Fájlrendszer modul, a képek törléséhez
@@ -366,7 +366,7 @@ III. checkLike(req, res) – Kedvencek lekérdezése:
      
       ---
 
-      - profileController.js – Funkcionalitás és Leírás
+      - 👨🏻‍💼 profileController.js – Funkcionalitás és Leírás
          - ### **Függőségek:**
            - database: Az adatbázis-műveleteket végző modul (models/database.js)
            - bcryptjs: A jelszó titkosításához szükséges könyvtár
@@ -447,7 +447,7 @@ III. checkLike(req, res) – Kedvencek lekérdezése:
            
             ---
 
-            - searchProductscontroller.js – Termékek keresése
+            - 🔎 searchProductscontroller.js – Termékek keresése
              - Funkció:
                - A funkció lehetővé teszi, hogy termékeket keressünk az adatbázisban a felhasználó által megadott kifejezés alapján. Ha nincs keresési kifejezés, akkor az összes terméket lekéri.
              - Bemenet:
@@ -480,7 +480,7 @@ III. checkLike(req, res) – Kedvencek lekérdezése:
 <details>
 <summary>Middleware</summary>
   
-  - authenticateToken & authenticateUser – Middleware a felhasználó hitelesítéséhez
+  - 👤 authenticateToken & authenticateUser – Middleware a felhasználó hitelesítéséhez
     - ### **Függőségek:**
       - jsonwebtoken (jwt): A JSON Web Token (JWT) kezelésére használt könyvtár.
       - database: Az adatbázis-műveleteket végző modul (models/database.js).
@@ -518,7 +518,7 @@ I. authenticateToken – Middleware a token ellenőrzésére
 
 ---
  
- - upload – Fájlok feltöltése (Multer middleware)
+ - 📎 upload – Fájlok feltöltése (Multer middleware)
  - ### **Függőségek:**
    - multer: A fájlok feltöltésére használt middleware az Express.js alkalmazások számára.
    - fs: A fájlrendszer kezelésére használt modul.
@@ -583,7 +583,7 @@ II. Upload (Feltöltési beállítások):
 
 <summary>Routes</summary>
 
-- authRoutes.js – Felhasználói autentikációs útvonalak
+- 👤 authRoutes.js – Felhasználói autentikációs útvonalak
   - ### **Függőségek:**
     - express: Express.js keretrendszer az útvonalak kezelésére.
     - authenticateToken: Middleware a JWT tokenek hitelesítésére (../middleware/jwtAuth).
@@ -644,7 +644,7 @@ I. Útvonalak és Funkcionalitás:
 
 ---
 
-- cartRoutes.js – Kosár műveletek útvonalai
+- 🛒 cartRoutes.js – Kosár műveletek útvonalai
    - ### **Függőségek:**
      - express: Express.js router a HTTP-kérések kezeléséhez.
      - jwtAuth: Middleware (authenticateUser) a felhasználó hitelesítéséhez JWT token alapján.
@@ -707,7 +707,7 @@ I. Útvonalak és Funkcionalitás:
     
 ---
 
-- likeRoutes.js – Kedvencek (Like) műveletek útvonalai
+- ❤️ likeRoutes.js – Kedvencek (Like) műveletek útvonalai
      - ### **Függőségek:**
        -  express: Express router a HTTP-kérések kezeléséhez.
        -  jwtAuth: Middleware (authenticateToken) a felhasználó JWT-alapú hitelesítéséhez.
@@ -749,7 +749,7 @@ I.  Útvonalak és Funkcionalitás:
 
 ---
 
-- productsDescriptionRoutes.js – Termékleírás frissítése
+- 📋 productsDescriptionRoutes.js – Termékleírás frissítése
   - ### **Függőségek:**
     - express: Express router a HTTP-kérések kezeléséhez.
     - productsDescriptionController: A termékek leírásának frissítéséért felelős controller, amely tartalmazza az updateProductDescription függvényt.
@@ -773,7 +773,7 @@ I. Útvonalak és Funkcionalitás:
   
 ---
 
-- productsRoutes.js – Termékekkel kapcsolatos útvonalak
+- 📦 productsRoutes.js – Termékekkel kapcsolatos útvonalak
   - ### **Függőségek:**
     - express: Express router a HTTP-kérések kezeléséhez.
     - authenticateToken: Middleware a JWT-alapú hitelesítéshez.
@@ -843,7 +843,7 @@ I. Útvonalak és Funkcionalitás:
 
 ---
 
-- profileRoutes.js – Felhasználói profilhoz kapcsolódó útvonalak
+- 👨🏻‍💼 profileRoutes.js – Felhasználói profilhoz kapcsolódó útvonalak
   - ### **Függőségek:**
   - express: Express router létrehozásához.
   - authenticateToken: Middleware a JWT-alapú hitelesítéshez.
@@ -917,7 +917,7 @@ I. Útvonalak és Funkcionalitás:
 
 ---
 
-- searchRoutes.js – Termékek kereséséhez kapcsolódó útvonal
+- 🔎 searchRoutes.js – Termékek kereséséhez kapcsolódó útvonal
   - ### **Függőségek:**
      - express: Express Router használatához.
      - searchController: A termékkereséssel kapcsolatos logikát tartalmazó modul.
@@ -941,3 +941,38 @@ I. Útvonal és Funkcionalitás:
    - A router exportálva van, így a fő alkalmazásban hozzáadható egy /search prefix-szel.
 
 </details>
+
+
+# app.js – Alkalmazás belépési pontja
+  1. Függőségek:
+    - express: A szerver létrehozásához használt web framework.
+    - cors: A cross-origin kérések kezelésére.
+    - cookie-parser: A HTTP-sütik kezeléséhez.
+    - path: Az elérési utak kezelésére szolgáló natív Node.js modul.
+   
+  2. Saját middleware-ek:
+    - limiter: A rate limiter middleware, ami megakadályozza a túl sok kérés egy időn belül.
+     - authenticateToken: A JWT token ellenőrzésére használt middleware.
+  3. Betöltött route-ok:
+      - /api/auth: Felhasználói hitelesítés (regisztráció, bejelentkezés, stb.)
+      - /api/profile: Felhasználói profilműveletek (név, jelszó, cím módosítás, stb.)
+      - /api/likes: Termék kedvelésének kezelése.
+      - /api/products: Termékek listázása, feltöltése, szerkesztése, törlése.
+      - /api/orders: Rendelések kezelése.
+      - /api/cart: Kosárhoz kapcsolódó műveletek.
+      - /: Termékleírás frissítése.
+      - /api: Termék keresés.
+        
+   4. Middleware-ek:
+      - express.json(): A JSON típusú body-k elemzésére.
+      - express.urlencoded({extended: true}): URL-kódolt body-k elemzése.
+      - cookieParser(): Sütik olvasása a kérésekből.
+      - cors({ origin: ..., credentials: true }): Engedélyezi a CORS kéréseket a frontend (pl. Netlify) felől.
+
+  5. Statikus fájlkezelés:
+     - app.use('/uploads', express.static(...)): A feltöltött fájlokat (pl. profilkép, termékkép) statikus útvonalon keresztül teszi elérhetővé.
+
+  6. Megjegyzések:
+     - Több route modul többször is regisztrálva van (pl. cartRoutes, productsRoutes, likeRoutes, profileRoutes), ami redundáns lehet. Ajánlott ezeket egyszer használni.
+     - Kommentben szerepelnek a jövőbeli jelszó-helyreállító útvonalak (forgotPasswordRoutes, resetPasswordRoutes) – ezek implementálása után aktiválhatók.
+     - A limiter jelenleg kikommentelt – éles környezetben érdemes aktiválni a DoS védelem érdekében.
