@@ -583,6 +583,68 @@ II. Upload (Feltöltési beállítások):
 
 <summary>Routes</summary>
 
-- 
+- authRoutes.js – Felhasználói autentikációs útvonalak
+  - ### **Függőségek:**
+    - express: Express.js keretrendszer az útvonalak kezelésére.
+    - authenticateToken: Middleware a JWT tokenek hitelesítésére (../middleware/jwtAuth).
+    - authControllers: Az autentikációs műveleteket megvalósító controller függvények:
+        - register, login, logout, loginUser, isLoggedIn, detectRole.
+     
+I. Útvonalak és Funkcionalitás:
+1. POST /register – Felhasználó regisztrálása
+   -  Controller: register
+   -  Leírás: Új felhasználó létrehozása.
+   -  Validálás: Az adatok formátumát és meglétét a controller végzi.
+   -  Válasz:
+     - Sikeres regisztráció: 201
+     - Hibás vagy hiányzó adatok: 400
+     - Belső hiba: 500
+
+2.  POST /login – Felhasználói bejelentkezés
+   - Controller: login
+     - Leírás: Felhasználó bejelentkezése és JWT token generálása.
+      - Válasz:
+        - Sikeres bejelentkezés: 200 (cookie-ban auth_token)
+        - Helytelen adatok: 401
+        - Hiba esetén: 500
+       
+  3. POST /logout – Kijelentkezés
+     - Middleware: authenticateToken
+     - Controller: logout
+     - Leírás: Felhasználó kijelentkeztetése, cookie törlése.
+     - Válasz:
+       - Sikeres kijelentkezés: 200
+       - Nincs token: 403
+      
+  4. POST ./login – Admin felhasználó bejelentkezése (HIBA van az útvonalban)
+     - ⚠️ Figyelem: Ez az útvonal hibás: ./login helyett /admin-login vagy valami egyedi kellene.
+     - Middleware: authenticateToken
+     - Controller: loginUser
+     - Leírás: Autentikált bejelentkezés logikája (pl. admin).
+     - Válasz: A controller alapján.
+    
+  5.  GET /isLoggedIn – Ellenőrzés, hogy be van-e jelentkezve a felhasználó
+     - Middleware: authenticateToken
+     - Controller: isLoggedIn
+     - Leírás: Visszajelzés, ha a felhasználó be van jelentkezve.
+     - Válasz:
+       - Be van jelentkezve: 200
+       - Token hiányzik vagy érvénytelen: 403
+    
+  6. GET /role – Felhasználói szerepkör lekérdezése
+     - Middleware: authenticateToken
+     - Controller: detectRole
+     - Leírás: Visszaadja a felhasználó szerepkörét (pl. admin, user).
+     - Válasz:
+       - Sikeres lekérdezés: 200
+       - Hibák esetén: 403, 500
+      
+  7. Exportálás:
+     - A router exportálva van, hogy a fő app.js vagy server.js fájlban mountolható legyen pl. /auth útvonal alá.
+
+---
+
+
+      
 
 </details>
