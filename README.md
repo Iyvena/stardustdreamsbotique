@@ -843,5 +843,79 @@ I. Útvonalak és Funkcionalitás:
 
 ---
 
+- profileRoutes.js – Felhasználói profilhoz kapcsolódó útvonalak
+  - ### **Függőségek:**
+  - express: Express router létrehozásához.
+  - authenticateToken: Middleware a JWT-alapú hitelesítéshez.
+  - upload: multer middleware a profilkép feltöltéséhez.
+  - profileController: A profilhoz kapcsolódó logikát kezelő függvények:
+    - editProfileName, editProfilePassword, editProfileAdress, editProfilePic, getProfilePic, getUsername, getAddress
+ 
+I. Útvonalak és Funkcionalitás:
+
+1. PUT /editProfileName – Felhasználónév módosítása
+   - Middlewares: authenticateToken
+   - Controller: editProfileName
+   - Leírás: A bejelentkezett felhasználó nevének frissítése.
+   - Bemenet: username (req.body)
+   - Válasz:
+    - Siker: 200 – Név sikeresen frissítve.
+     - Hibák: 400 (hiányzó adat), 404 (felhasználó nem található), 500 (adatbázis hiba)
+  
+2. PUT /editProfilePassword – Jelszó módosítása
+   - Middlewares: authenticateToken
+   - Controller: editProfilePassword
+   - Leírás: A felhasználó jelszavának frissítése.
+   - Bemenet: password (req.body)
+   - Válasz:
+     - Siker: 200 – Jelszó frissítve.
+     - Hibák: 400 (nem megfelelő jelszó), 500 (belső hiba)
+
+3. PUT /editProfileAdress – Cím módosítása
+   - Middlewares: authenticateToken
+   - Controller: editProfileAdress
+   - Leírás: A felhasználó lakcímének frissítése.
+   - Bemenet: address (req.body)
+   - Válasz:
+     - Siker: 200 – Cím frissítve.
+     - Hibák: 400 (üres mező), 404 (nincs ilyen felhasználó), 500 (adatbázis hiba)
+
+4. PUT /editProfilePic – Profilkép módosítása
+   - Middlewares: authenticateToken, upload.single('profile_pic')
+   - Controller: editProfilePic
+   - Leírás: A felhasználó új profilképének feltöltése és mentése.
+   - Válasz:
+     - Siker: 200 – Profilkép sikeresen frissítve.
+     - Hibák: 500 – Fájlkezelési vagy adatbázis hiba
+
+5. GET /pic – Profilkép lekérdezése
+   - Middlewares: authenticateToken
+   - Controller: getProfilePic
+   - Leírás: A bejelentkezett felhasználó profilképének fájlnevét adja vissza.
+   - Válasz:
+     - Siker: 200 – Profilkép fájlnév.
+     - Hibák: 404 (felhasználó nem található)
+
+6. GET /username – Felhasználónév lekérdezése
+   - Middlewares: authenticateToken
+   - Controller: getUsername
+   - Leírás: Visszaadja a bejelentkezett felhasználó nevét.
+   - Válasz:
+     - Siker: 200 – Felhasználónév.
+     - Hiba: 404 – Felhasználó nem található
+
+7. GET /address – Cím lekérdezése
+   - Middlewares: authenticateToken
+   - Controller: getAddress
+   - Leírás: A bejelentkezett felhasználó címét adja vissza.
+   - Válasz:
+     - Siker: 200 – Lakcím.
+     - Hiba: 404 – Felhasználó nem található
+
+8. Exportálás:
+   - A router exportálva van a fő alkalmazásba történő beillesztéshez (pl. /profile útvonal prefixel).
+
+---
+
 
 </details>
