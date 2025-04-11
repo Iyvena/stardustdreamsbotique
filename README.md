@@ -7,6 +7,7 @@
 
 1. API végpontok
   - Adatbázis
+      - adatbázis linkje: https://drawsql.app/teams/elefant/diagrams/stardust-workshop 
     - Auth rendszer
       - Telepítés/használat
 
