@@ -10,6 +10,9 @@
       - adatbázis linkje: https://drawsql.app/teams/elefant/diagrams/stardust-workshop 
     - Auth rendszer
       - Telepítés/használat
+### bejelentkezések a weboldalhoz: 
+  - tesztuser@email.hu jelszó: 12345678
+  - tesztAdmin@email.hu jelszó: 12345678
 
 ---
 # Fő Csomagok
