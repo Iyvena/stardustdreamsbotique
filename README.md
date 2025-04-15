@@ -10,7 +10,7 @@
       - adatbázis linkje: https://drawsql.app/teams/elefant/diagrams/stardust-workshop 
     - Auth rendszer
       - Telepítés/használat
-    - Postman(tesztelés) linkje: https://web.postman.co/documentation/38557822-3323ce46-38d2-4898-a437-c36ce3e708e5/publish?workspaceId=8b899a62-3eb2-4904-8e1e-95576a83651e
+    - Postman(tesztelés) linkje: [https://web.postman.co/documentation/38557822-3323ce46-38d2-4898-a437-c36ce3e708e5/publish?workspaceId=8b899a62-3eb2-4904-8e1e-95576a83651e](https://documenter.getpostman.com/view/38557822/2sB2cVfhfg)
 
 ---
 # Fő Csomagok
