@@ -14,8 +14,7 @@
     - A weboldal linkje:
       - 
         - ### bejelentkezések a weboldalhoz: 
-            - tesztuser@email.hu jelszó: 12345678
-            - tesztAdmin@email.hu jelszó: 12345678
+           
 
 ---
 # Fő Csomagok
