@@ -11,6 +11,11 @@
     - Auth rendszer
       - Telepítés/használat
     - Postman(tesztelés) linkje: https://documenter.getpostman.com/view/38557822/2sB2cVfhfg
+    - A weboldal linkje:
+      - 
+        - ### bejelentkezések a weboldalhoz: 
+            - tesztuser@email.hu jelszó: 12345678
+            - tesztAdmin@email.hu jelszó: 12345678
 
 ---
 # Fő Csomagok
