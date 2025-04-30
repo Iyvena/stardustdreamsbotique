@@ -33,7 +33,7 @@ const uploadProduct = (req, res) => {
     }
 
     const { product_name, description, price, type_id, category_name } = req.body;
-    console.log(product_name, description, price, type_id, category_name);
+    //console.log(product_name, description, price, type_id, category_name);
     const product = req.file.filename;
     console.log(product);
 
