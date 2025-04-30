@@ -32,19 +32,19 @@ const uploadProduct = (req, res) => {
         });
     }
 
-    const { product_name, description, price, type_id, category_name } = req.body;
-    console.log(product_name, description, price, type_id, category_name);
+    const { product_name, description, price, type_id, chategory_name } = req.body;
+    console.log(product_name, description, price, type_id, chategory_name);
     const product = req.file.filename;
     console.log(product);
 
-    if (!product_name || !price || !type_id || !category_name || !description || !product) {
+    if (!product_name || !price || !type_id || !chategory_name || !description || !product) {
         return res.status(400).json({
             error: 'Kérlek add meg az összes szükséges adatot (termék neve, ára, típusa, kategória neve, fájl)',
             details: {
                 product_name,
                 price,
                 type_id,
-                category_name,
+                chategory_name,
                 description,
                 product
             }
