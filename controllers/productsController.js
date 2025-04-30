@@ -37,6 +37,8 @@ const uploadProduct = (req, res) => {
     const product = req.file.filename;
     console.log(product);
 
+    console.log(product_name, description, price, type_id, category_name);
+    
     if (!product_name || !price || !type_id || !category_name || !description || !product) {
         return res.status(400).json({
             error: 'Kérlek add meg az összes szükséges adatot (termék neve, ára, típusa, kategória neve, fájl)',
