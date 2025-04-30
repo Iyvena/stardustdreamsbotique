@@ -11,6 +11,10 @@
     - Auth rendszer
       - Telepítés/használat
     - Postman(tesztelés) linkje: https://documenter.getpostman.com/view/38557822/2sB2cVfhfg
+    - A weboldal linkje:
+      - 
+        - ### bejelentkezések a weboldalhoz: 
+           
 
 ---
 # Fő Csomagok
